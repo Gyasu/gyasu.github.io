@@ -1,10 +1,281 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gyasu Bajracharya</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@300;400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --brick-red: #a0522d;
+            --burnt-sienna: #8b4513;
+            --deep-gold: #b8860b;
+            --dark-wood: #654321;
+            --warm-cream: #faf6f0;
+            --text-dark: #2c1810;
+            --text-medium: #4a3728;
+            --shadow-light: rgba(139, 69, 19, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--warm-cream);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--warm-cream);
+            border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+
+        .logo {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--brick-red);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-medium);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brick-red);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .hero-highlight {
+            color: var(--brick-red);
+        }
+
+        .hero-intro {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+        }
+
+        .temple-accent {
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, var(--brick-red), var(--deep-gold));
+            margin: 0 auto;
+            opacity: 0.6;
+        }
+
+        /* Highlights Section */
+        .highlights {
+            padding: 80px 0;
+        }
+
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px var(--shadow-light);
+            border-left: 3px solid var(--deep-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .highlight-card h3 {
+            font-family: 'Crimson Text', serif;
+            color: var(--brick-red);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-card p {
+            color: var(--text-medium);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-card .btn {
+            color: var(--brick-red);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-bottom: 1px solid var(--brick-red);
+            transition: all 0.3s ease;
+        }
+
+        .highlight-card .btn:hover {
+            color: var(--burnt-sienna);
+            border-color: var(--burnt-sienna);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-wood);
+            color: var(--warm-cream);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-accent {
+            width: 20px;
+            height: 20px;
+            background: var(--deep-gold);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 0.5rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-intro {
+                font-size: 1rem;
+            }
+            
+            .highlight-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+
+        a:focus {
+            outline: 2px solid var(--deep-gold);
+            outline-offset: 2px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Website</h1>
-    <p>Content coming soon!</p>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Gyasu Bajracharya</a>
+            <ul class="nav-links">
+                <li><a href="#research">Research</a></li>
+                <li><a href="#music">Music</a></li>
+                <li><a href="#cv">CV</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button id="toggle-theme" aria-label="Toggle dark mode" style="background:none; border:none; color: var(--brick-red); cursor:pointer; font-size:1rem;">
+                🌙
+            </button>
+            <button id="nav-toggle" aria-label="Toggle navigation" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color: var(--brick-red);">
+            ☰
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>I'm <span class="hero-highlight">Gyasu Bajracharya</span></h1>
+                <p class="hero-intro">
+                    ...
+                </p>
+                <div class="temple-accent"></div>
+            </div>
+        </section>
+
+        <section class="highlights">
+            <div class="container">
+                <div class="highlight-grid">
+                    <div class="highlight-card">
+                        <h3>Research</h3>
+                        <p>
+                            ...
+                        </p>
+                        <a href="#research" class="btn">View Research</a>
+                    </div>
+
+                    <div class="highlight-card">
+                        <h3>Music</h3>
+                        <p>
+                            section coming soon
+                        </p>
+                        <a href="#music" class="btn">Listen</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>
+                <span class="footer-accent"></span>
+                footer coming soon
+                <span class="footer-accent"></span>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
