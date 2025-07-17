@@ -1,67 +1,27 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Smooth scroll for nav links + close mobile menu on click
-  const navLinks = document.querySelector('.nav-links');
-  document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(anchor.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-      if (navLinks && navLinks.classList.contains('active')) {
-        navLinks.classList.remove('active');
-      }
-    });
-  });
+const toggleInput = document.getElementById('toggle-theme');
+const body = document.body;
+const icon = document.querySelector('.slider .icon');
 
-  // Dynamically generate highlight cards
-  const highlightsData = [
-    {
-      title: "Protein Evolution",
-      description: "Studying constraints across species...",
-      link: "#research"
-    },
-    {
-      title: "Machine Learning Models",
-      description: "Developing PLMs for protein function prediction...",
-      link: "#research"
-    },
-    {
-      title: "Music Journey",
-      description: "Classical pianist and lifelong musician.",
-      link: "#music"
+function setTheme(dark) {
+    if (dark) {
+        body.classList.add('dark-mode');
+        icon.textContent = '🌑'; // or '●'
+        toggleInput.checked = true;
+        localStorage.setItem('theme', 'dark');
+    } else {
+        body.classList.remove('dark-mode');
+        icon.textContent = '☀️';
+        toggleInput.checked = false;
+        localStorage.setItem('theme', 'light');
     }
-  ];
+}
 
-  const grid = document.querySelector('.highlight-grid');
-  if (grid) {
-    grid.innerHTML = ''; // clear existing cards
+// On page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    setTheme(savedTheme === 'dark');
 
-    highlightsData.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'highlight-card';
-      card.innerHTML = `
-        <h3>${item.title}</h3>
-        <p>${item.description}</p>
-        <a href="${item.link}" class="btn">View</a>
-      `;
-      grid.appendChild(card);
+    toggleInput.addEventListener('change', () => {
+        setTheme(toggleInput.checked);
     });
-  }
-
-  // Mobile nav toggle
-  const toggleButton = document.getElementById('nav-toggle');
-  if (toggleButton && navLinks) {
-    toggleButton.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
-  }
-
-  // Dark mode toggle
-  const darkToggle = document.getElementById('toggle-theme');
-  if (darkToggle) {
-    darkToggle.addEventListener('click', () => {
-      document.documentElement.classList.toggle('dark-mode');
-    });
-  }
 });
