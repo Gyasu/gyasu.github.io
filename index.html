@@ -4,320 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gyasu Bajracharya</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@300;400;500&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --brick-red: #ab9186;
-      --burnt-sienna: #8b4513;
-      --deep-gold: #b8860b;
-      --dark-wood: #654321;
-      --warm-cream: #faf6f0;
-      --text-dark: #000000;
-      --text-medium: #4a3728;
-      --shadow-light: rgba(139, 69, 19, 0.1);
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      line-height: 1.6;
-      color: var(--text-dark);
-      background: var(--warm-cream);
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    header {
-      background: var(--warm-cream);
-      border-bottom: 0px solid rgba(184, 134, 11, 0.2);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 0;
-    }
-
-    .logo {
-      font-family: 'Crimson Text', serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--brick-red);
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
-
-    .nav-links a {
-      color: var(--text-medium);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--brick-red);
-    }
-
-    .hero {
-      padding: 140px 0 80px;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-family: 'Crimson Text', serif;
-      font-size: 2.5rem;
-      font-weight: 400;
-      color: var(--text-dark);
-      margin-bottom: 1rem;
-    }
-
-    .hero-highlight {
-      color: var(--brick-red);
-    }
-
-    .hero-intro {
-      font-size: 1.1rem;
-      color: var(--text-medium);
-      max-width: 600px;
-      margin: 0 auto 3rem;
-      font-weight: 300;
-    }
-
-    .temple-accent {
-      width: 100px;
-      height: 2px;
-      background: linear-gradient(to right, var(--brick-red), var(--deep-gold));
-      margin: 0 auto;
-      opacity: 0.6;
-    }
-
-    .highlights {
-      padding: 80px 0;
-    }
-
-    .highlight-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .highlight-card {
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px var(--shadow-light);
-      border-left: 3px solid var(--deep-gold);
-      transition: transform 0.3s ease;
-    }
-
-    .highlight-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .highlight-card h3 {
-      font-family: 'Crimson Text', serif;
-      color: var(--brick-red);
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .highlight-card p {
-      color: var(--text-medium);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .highlight-card .btn {
-      color: var(--brick-red);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border-bottom: 1px solid var(--brick-red);
-      transition: all 0.3s ease;
-    }
-
-    .highlight-card .btn:hover {
-      color: var(--burnt-sienna);
-      border-color: var(--burnt-sienna);
-    }
-
-    footer {
-      background: var(--dark-wood);
-      color: var(--warm-cream);
-      text-align: center;
-      padding: 2rem 0;
-      margin-top: 4rem;
-    }
-
-    .footer-accent {
-      width: 20px;
-      height: 20px;
-      background: var(--deep-gold);
-      border-radius: 50%;
-      display: inline-block;
-      margin: 0 0.5rem;
-      opacity: 0.7;
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero-intro {
-        font-size: 1rem;
-      }
-
-      .highlight-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        transition: none !important;
-      }
-    }
-
-    a:focus {
-      outline: 2px solid var(--deep-gold);
-      outline-offset: 2px;
-    }
-
-    #nav-toggle {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      #nav-toggle {
-        display: block;
-      }
-
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        background: var(--warm-cream);
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        z-index: 1001;
-      }
-
-      .nav-links.active {
-        display: flex;
-      }
-    }
-
-    /* Dark mode styles */
-    .dark-mode {
-      --brick-red: #ffb347;
-      --burnt-sienna: #cc6f2f;
-      --deep-gold: #ffd700;
-      --dark-wood: #121212;
-      --warm-cream: #1e1e1e;
-      --text-dark: #fafafa;
-      --text-medium: #ccc;
-      --shadow-light: rgba(255, 215, 0, 0.2);
-      background: var(--dark-wood);
-      color: var(--text-dark);
-    }
-
-    .dark-mode body {
-      background: var(--dark-wood);
-      color: var(--text-dark);
-    }
-
-    /* Toggle Switch with Icon */
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 26px;
-      margin-left: 1rem;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: var(--deep-gold);
-      border-radius: 26px;
-      transition: background-color 0.4s;
-    }
-
-    .slider:before {
-      content: "";
-      position: absolute;
-      height: 22px;
-      width: 22px;
-      left: 2px;
-      top: 2px;
-      background-color: var(--warm-cream);
-      border-radius: 50%;
-      transition: transform 0.4s;
-    }
-
-    .icon {
-    position: absolute;
-    left: 2px;          /* ➜ same offsets as the knob */
-    top: 2px;
-    width: 22px;        /* ➜ same size as the knob */
-    height: 22px;
-    display: flex;      /* flexbox centres the emoji */
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;    /* fits comfortably inside 22 px */
-    pointer-events: none;
-    transition: transform 0.4s;
-    }
-
-    input:checked + .slider .icon {
-    transform: translateX(24px);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(24px);
-    }
-
-    input:checked + .slider .icon {
-      transform: translateX(24px);
-    }
-  </style>
-</head>
+  <link href="https://fonts.googleapis.com/css2?family=Ribbon&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"> </head>
 <body>
   <header>
     <nav class="container">
@@ -325,11 +15,10 @@
       <ul class="nav-links">
         <li><a href="#research">Research</a></li>
         <li><a href="#music">Music</a></li>
-        <li><a href="#cv">CV</a></li>
+        <li><a href="chatbot.html">AI Assistant</a></li> <li><a href="#cv">CV</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
 
-      <!-- Toggle switch -->
       <label class="switch">
         <input type="checkbox" id="toggle-theme">
         <span class="slider">
@@ -367,10 +56,34 @@
             <p>section coming soon</p>
             <a href="#music" class="btn">Listen</a>
           </div>
+          <div class="highlight-card">
+            <h3>AI Assistant</h3>
+            <p>Chat with my AI assistant to learn more about my work, research, and interests.</p>
+            <a href="chatbot.html" class="btn">Start Chat</a> </div>
         </div>
       </div>
     </section>
   </main>
+
+  <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Toggle chatbot">
+    🤖
+  </button>
+
+  <div id="chatbot-modal" class="chatbot-modal">
+    <div class="chatbot-modal-header">
+      <h3>Gyasu's AI Assistant</h3>
+      <button id="chatbot-close" class="chatbot-close" aria-label="Close chatbot">
+        ×
+      </button>
+    </div>
+    <div class="chatbot-modal-content">
+      <div class="chatbot-messages" id="modal-messages"></div>
+      <form class="chatbot-form" id="modal-chat-form">
+        <input class="chatbot-input" id="modal-input" autocomplete="off" placeholder="Ask about Gyasu..." />
+        <button class="chatbot-send" id="modal-send-btn" type="submit">Send</button>
+      </form>
+    </div>
+  </div>
 
   <footer>
     <div class="container">
@@ -382,33 +95,5 @@
     </div>
   </footer>
 
-  <script>
-    const toggle = document.getElementById('toggle-theme');
-    const body = document.body;
-    const icon = document.getElementById('theme-icon');
-
-    function setTheme(dark) {
-      if (dark) {
-        body.classList.add('dark-mode');
-        icon.textContent = '☾';
-        toggle.checked = true;
-        localStorage.setItem('theme', 'dark');
-      } else {
-        body.classList.remove('dark-mode');
-        icon.textContent = '☀︎';
-        toggle.checked = false;
-        localStorage.setItem('theme', 'light');
-      }
-    }
-
-    // On page load
-    const saved = localStorage.getItem('theme');
-    setTheme(saved === 'dark');
-
-    // On toggle
-    toggle.addEventListener('change', () => {
-      setTheme(toggle.checked);
-    });
-  </script>
-</body>
+  <script src="chatbot.js"></script> </body>
 </html>

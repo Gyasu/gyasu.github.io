@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gyasu Bajracharya - AI Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Ribbon&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"> <style>
+    /* Specific styles for chatbot.html to center and fill the viewport */
+    body.chatbot-page {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      padding: 20px; /* Add some padding around the chatbot */
+    }
+
+    body.chatbot-page .chatbot-container {
+      max-width: 800px; /* Adjust max-width for a larger full-page view */
+      width: 100%;
+      height: calc(100vh - 40px); /* Fill most of the viewport height */
+      margin: auto; /* Center it */
+    }
+
+    /* Hide modal and toggle button on chatbot.html */
+    body.chatbot-page .chatbot-toggle,
+    body.chatbot-page .chatbot-modal {
+      display: none !important;
+    }
+
+    /* Adjust header for chatbot.html so it doesn't overlap */
+    body.chatbot-page header {
+        position: static; /* Remove fixed positioning */
+        border-bottom: 1px solid rgba(184, 134, 11, 0.2); /* Add back border for clarity */
+    }
+  </style>
+</head>
+<body class="chatbot-page">
+  <header>
+    <nav class="container">
+      <a href="index.html" class="logo">Gyasu Bajracharya</a> <ul class="nav-links">
+        <li><a href="index.html#research">Research</a></li>
+        <li><a href="index.html#music">Music</a></li>
+        <li><a href="chatbot.html">AI Assistant</a></li>
+        <li><a href="index.html#cv">CV</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+
+      <label class="switch">
+        <input type="checkbox" id="toggle-theme">
+        <span class="slider">
+          <span class="icon" id="theme-icon">☀️</span>
+        </span>
+      </label>
+
+      <button id="nav-toggle" aria-label="Toggle navigation" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color: var(--brick-red);">
+        ☰
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="chatbot" class="chatbot-section" style="padding: 0; background: none;">
+      <div class="container">
+        <div class="chatbot-container">
+          <div class="chatbot-header">
+            <h2>Gyasu's AI Assistant</h2>
+            <p>Ask me anything about Gyasu's work and interests</p>
+            <div class="chatbot-status" id="knowledge-status">Ready to help you learn about Gyasu</div>
+          </div>
+          <div class="chatbot-messages" id="messages"></div>
+          <form class="chatbot-form" id="chat-form">
+            <input class="chatbot-input" id="input" autocomplete="off" placeholder="Ask me about Gyasu's research, music, or background..." />
+            <button class="chatbot-send" id="send-btn" type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <span class="footer-accent"></span>
+        footer coming soon
+        <span class="footer-accent"></span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="chatbot.js"></script> </body>
+</html>
