@@ -1,0 +1,25 @@
+{
+  "name": "gyasu-chatbot",
+  "version": "1.0.0",
+  "description": "Personal AI assistant chatbot for Gyasu Bajracharya",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site, no build needed'",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "chatbot",
+    "ai",
+    "personal-website",
+    "vercel"
+  ],
+  "author": "Gyasu Bajracharya",
+  "license": "MIT"
+}

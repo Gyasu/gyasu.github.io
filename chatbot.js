@@ -117,13 +117,11 @@ Please provide a helpful and informative response about Gyasu based on the avail
     // For GitHub Pages, you'd typically need a serverless function (like Netlify Functions, Vercel Serverless Functions)
     // to proxy your API calls and secure your API key, as exposing it directly in frontend JS is not recommended for production.
     // For a simple demo, you might include it directly, but be aware of the security implications.
-    const API_KEY = "YOUR_API_KEY_HERE"; // Placeholder for your actual API key
 
     const res = await fetch(API_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
     });
