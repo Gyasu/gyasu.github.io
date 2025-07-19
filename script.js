@@ -113,7 +113,7 @@ Please provide a helpful and informative response about Gyasu based on the avail
   };
 
   try {
-    const res = await fetch(API_URL, {
+    const res = await fetch('https://gyasu-github-io.vercel.app/api/chat', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
