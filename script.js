@@ -1,6 +1,5 @@
 // === CHATBOT CONFIG ===
 const MODEL = "google/gemma-2-9b-it:free";
-const API_URL = "/api/chat"; // This will now work with your Vercel serverless function
 
 // === KNOWLEDGE BASE ABOUT GYASU ===
 const KNOWLEDGE_BASE = `
