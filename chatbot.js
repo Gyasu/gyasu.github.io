@@ -1,6 +1,5 @@
 // === CHATBOT CONFIG ===
 const MODEL = "google/gemma-3n-e2b-it:free";
-const API_URL = "/api/chat"; // Ensure your API is accessible at this path
 
 // === KNOWLEDGE BASE ABOUT GYASU ===
 const KNOWLEDGE_BASE = `
@@ -118,12 +117,12 @@ Please provide a helpful and informative response about Gyasu based on the avail
     // to proxy your API calls and secure your API key, as exposing it directly in frontend JS is not recommended for production.
     // For a simple demo, you might include it directly, but be aware of the security implications.
 
-    const res = await fetch(API_URL, {
+    const res = await fetch('https://gyasu-github-io.vercel.app/api/chat', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(requestBody)
     });
 
     if (!res.ok) {
