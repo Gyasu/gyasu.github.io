@@ -1,6 +1,18 @@
 // api/chat.js - Place this file in your project's /api folder
 export default async function handler(req, res) {
-  // Only allow POST requests
+  // CORS Headers - Add these at the very beginning
+  res.setHeader('Access-Control-Allow-Origin', 'https://gyasu.github.io');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  // Handle preflight OPTIONS request
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  // Only allow POST requests (after handling OPTIONS)
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
