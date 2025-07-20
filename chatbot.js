@@ -3,24 +3,19 @@ const MODEL = "google/gemma-2-9b-it:free";
 
 // === KNOWLEDGE BASE ABOUT GYASU ===
 const KNOWLEDGE_BASE = `
-DOCUMENT 1: About Gyasu Bajracharya
-Gyasu Bajracharya is a researcher and musician with interests spanning multiple disciplines. He has a background in both academic research and creative pursuits, particularly music composition and performance.
+DOCUMENT: About Gyasu Bajracharya
 
-DOCUMENT 2: Research Interests
-Gyasu's research focuses on [add specific research areas here]. He has published work in [add publication details]. His academic work explores [add research topics and methodologies].
+Gyasu Bajracharya is a PhD student in Biophysics at UCSF, where he works at the intersection of AI and biology. He is currently a researcher in the Capra Lab, focusing on developing computational methods that improve our understanding of protein evolution and function. His projects include interpretable machine learning, fine-tuning protein language models, sparse autoencoders, and embedding-based tools for protein variant interpretation. His long-term goal is to develop ML/AI tools to accelerate therapeutics and make protein research accessible to low-resource communities worldwide.
 
-DOCUMENT 3: Musical Background
-Gyasu is an active musician with experience in [add musical background - instruments, genres, compositions, performances]. He combines his analytical research skills with creative musical expression.
+Originally from Nepal, his move to the U.S. gave him the opportunity to pursue both science and classical music. He completed his undergraduate studies at Gettysburg College with honors, double-majoring in Biochemistry & Molecular Biology and Music. During college, he explored microbiology and molecular genetics through multiple summer research programs at Penn State. He later developed an interest in computational biology while working at NGM Biopharmaceuticals, where he engineered therapeutic antibodies, built analysis pipelines, and filed a patent (pending) for an anti-cancer antibody therapeutic.
 
-DOCUMENT 4: Academic Background
-[Add educational background, degrees, institutions, notable achievements]
+Gyasu was awarded an Honorable Mention in the 2025 NSF Graduate Research Fellowship Program (GRFP). He is a strong advocate for mentorship and inclusion in science, having mentored interns through REU programs and summer students at UCSF. He also served as a Teaching Assistant in UCSF’s core biophysics course, *Macromolecular Interactions*.
 
-DOCUMENT 5: Current Projects
-[Add information about current research projects, collaborations, ongoing work]
+Musically, Gyasu is an experienced pianist, guitarist, and composer. He began studying piano at age 7 and has pursued his passion for classical music throughout his academic journey. His original composition, “La Da Di Da,” is available on Spotify.
 
----
-Note: Replace the bracketed sections above with Gyasu's actual information.
+Outside of academia, Gyasu enjoys tennis, chess, working out, and is an avid supporter of Manchester United and Formula 1.
 `.trim();
+
 
 // === CHATBOT FUNCTIONALITY ===
 let conversation = []; // For the full chatbot page
