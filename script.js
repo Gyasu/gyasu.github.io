@@ -35,6 +35,17 @@ const elements = {
   navLinks: document.querySelector('.nav-links')
 };
 
+// === IMPROVED SCROLL FUNCTION ===
+function scrollToBottom(isModal = false) {
+  const targetDiv = isModal ? elements.modalMessagesDiv : elements.messagesDiv;
+  if (!targetDiv) return;
+
+  // Use requestAnimationFrame to ensure DOM is updated
+  requestAnimationFrame(() => {
+    targetDiv.scrollTop = targetDiv.scrollHeight;
+  });
+}
+
 // === CHAT FUNCTIONS ===
 function appendMessage(role, content, isModal = false) {
   const targetDiv = isModal ? elements.modalMessagesDiv : elements.messagesDiv;
@@ -44,7 +55,11 @@ function appendMessage(role, content, isModal = false) {
   msgDiv.className = `chatbot-msg ${role}`;
   msgDiv.textContent = content;
   targetDiv.appendChild(msgDiv);
-  targetDiv.scrollTop = targetDiv.scrollHeight;
+  
+  // Improved scrolling with multiple fallbacks
+  setTimeout(() => scrollToBottom(isModal), 10);
+  requestAnimationFrame(() => scrollToBottom(isModal));
+  
   return msgDiv;
 }
 
@@ -55,7 +70,7 @@ function showTyping(isModal = false) {
 }
 
 async function sendMessage(text, isModal = false) {
-  const conversation = isModal ? modalConversation : window.conversation;
+  const conversationArray = isModal ? modalConversation : conversation;
   const sendBtn = isModal ? elements.modalSendBtn : elements.sendBtn;
   const input = isModal ? elements.modalInput : elements.input;
 
@@ -68,7 +83,7 @@ async function sendMessage(text, isModal = false) {
   const typingDiv = showTyping(isModal);
   const enhancedPrompt = `You are Gyasu's AI assistant... ${text}`;
   
-  conversation.push({ role: "user", content: enhancedPrompt });
+  conversationArray.push({ role: "user", content: enhancedPrompt });
 
   try {
     const response = await fetch('https://gyasu-github-io.vercel.app/api/chat', {
@@ -76,7 +91,7 @@ async function sendMessage(text, isModal = false) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: MODEL,
-        messages: conversation,
+        messages: conversationArray,
         temperature: 0.7
       })
     });
@@ -87,8 +102,13 @@ async function sendMessage(text, isModal = false) {
     const reply = data.choices?.[0]?.message?.content?.trim() || "[Empty response]";
 
     if (typingDiv) typingDiv.remove();
-    conversation.push({ role: "assistant", content: reply });
-    appendMessage("bot", reply, isModal);
+    conversationArray.push({ role: "assistant", content: reply });
+    
+    // Add bot message and ensure scrolling
+    const botMsg = appendMessage("bot", reply, isModal);
+    
+    // Additional scroll after bot message
+    setTimeout(() => scrollToBottom(isModal), 100);
 
   } catch (err) {
     console.error('Chat error:', err);
@@ -118,12 +138,19 @@ if (elements.modalForm) {
   });
 }
 
-// Modal controls
+// Modal controls with improved scrolling
 if (elements.chatbotToggle && elements.chatbotModal) {
   elements.chatbotToggle.addEventListener('click', () => {
+    const wasActive = elements.chatbotModal.classList.contains('active');
     elements.chatbotModal.classList.toggle('active');
-    if (elements.chatbotModal.classList.contains('active') && elements.modalInput) {
-      elements.modalInput.focus();
+    
+    if (!wasActive && elements.chatbotModal.classList.contains('active')) {
+      // Modal just opened
+      if (elements.modalInput) {
+        elements.modalInput.focus();
+      }
+      // Scroll to bottom when modal opens
+      setTimeout(() => scrollToBottom(true), 100);
     }
   });
 }
@@ -131,6 +158,15 @@ if (elements.chatbotToggle && elements.chatbotModal) {
 if (elements.chatbotClose) {
   elements.chatbotClose.addEventListener('click', () => {
     elements.chatbotModal.classList.remove('active');
+  });
+}
+
+// Close modal when clicking outside
+if (elements.chatbotModal) {
+  elements.chatbotModal.addEventListener('click', (e) => {
+    if (e.target === elements.chatbotModal) {
+      elements.chatbotModal.classList.remove('active');
+    }
   });
 }
 
@@ -152,9 +188,53 @@ if (elements.navToggle && elements.navLinks) {
   });
 }
 
+// === MUTATION OBSERVER FOR AUTO-SCROLL ===
+// This ensures scrolling happens whenever messages are added/removed
+function setupAutoScroll() {
+  const observeContainer = (container, isModal) => {
+    if (!container) return;
+    
+    const observer = new MutationObserver(() => {
+      scrollToBottom(isModal);
+    });
+    
+    observer.observe(container, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  };
+  
+  // Setup observers for both containers
+  observeContainer(elements.messagesDiv, false);
+  observeContainer(elements.modalMessagesDiv, true);
+}
+
+// Initialize auto-scroll on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  setupAutoScroll();
+});
+
 // Initial messages
 if (isChatbotPage && elements.messagesDiv) {
-  setTimeout(() => appendMessage("bot", "Hi! I'm Gyasu's AI assistant. What would you like to know?", false), 500);
+  setTimeout(() => {
+    appendMessage("bot", "Hi! I'm Gyasu's AI assistant. What would you like to know?", false);
+  }, 500);
 } else if (elements.modalMessagesDiv) {
-  setTimeout(() => appendMessage("bot", "Hello! Ask me about Gyasu's work!", true), 1000);
+  setTimeout(() => {
+    appendMessage("bot", "Hello! Ask me about Gyasu's work!", true);
+  }, 1000);
 }
+
+// === KEYBOARD SHORTCUTS ===
+document.addEventListener('keydown', (e) => {
+  // Escape to close modal
+  if (e.key === 'Escape' && elements.chatbotModal.classList.contains('active')) {
+    elements.chatbotModal.classList.remove('active');
+  }
+  
+  // Ctrl/Cmd + Enter to toggle modal
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    elements.chatbotToggle.click();
+  }
+});

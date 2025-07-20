@@ -9,9 +9,9 @@ Gyasu Bajracharya is a PhD student in Biophysics at UCSF, where he works at the 
 
 Originally from Nepal, his move to the U.S. gave him the opportunity to pursue both science and classical music. He completed his undergraduate studies at Gettysburg College with honors, double-majoring in Biochemistry & Molecular Biology and Music. During college, he explored microbiology and molecular genetics through multiple summer research programs at Penn State. He later developed an interest in computational biology while working at NGM Biopharmaceuticals, where he engineered therapeutic antibodies, built analysis pipelines, and filed a patent (pending) for an anti-cancer antibody therapeutic.
 
-Gyasu was awarded an Honorable Mention in the 2025 NSF Graduate Research Fellowship Program (GRFP). He is a strong advocate for mentorship and inclusion in science, having mentored interns through REU programs and summer students at UCSF. He also served as a Teaching Assistant in UCSF’s core biophysics course, *Macromolecular Interactions*.
+Gyasu was awarded an Honorable Mention in the 2025 NSF Graduate Research Fellowship Program (GRFP). He is a strong advocate for mentorship and inclusion in science, having mentored interns through REU programs and summer students at UCSF. He also served as a Teaching Assistant in UCSF's core biophysics course, *Macromolecular Interactions*.
 
-Musically, Gyasu is an experienced pianist, guitarist, and composer. He began studying piano at age 7 and has pursued his passion for classical music throughout his academic journey. His original composition, “La Da Di Da,” is available on Spotify.
+Musically, Gyasu is an experienced pianist, guitarist, and composer. He began studying piano at age 7 and has pursued his passion for classical music throughout his academic journey. His original composition, "La Da Di Da," is available on Spotify.
 
 Outside of academia, Gyasu enjoys tennis, chess, working out, and is an avid supporter of Manchester United and Formula 1.
 `.trim();
@@ -48,7 +48,23 @@ if (isChatbotPage && statusDiv) {
   statusDiv.textContent = `Ready to share information about Gyasu`;
 }
 
-// Append message to chat window
+// === ENHANCED SCROLLING FUNCTIONALITY ===
+// This function should match the one from your script.js
+function scrollToBottom(container) {
+  if (!container) return;
+  
+  // Use requestAnimationFrame for smooth scrolling
+  requestAnimationFrame(() => {
+    container.scrollTop = container.scrollHeight;
+    
+    // Double-check after a brief delay to ensure content is fully rendered
+    setTimeout(() => {
+      container.scrollTop = container.scrollHeight;
+    }, 10);
+  });
+}
+
+// Enhanced append message function with proper auto-scrolling
 function appendMessage(role, content, isModal) {
   const targetDiv = isModal ? modalMessagesDiv : messagesDiv;
   if (!targetDiv) return; // Exit if the target div doesn't exist on this page
@@ -57,7 +73,14 @@ function appendMessage(role, content, isModal) {
   msgDiv.className = "chatbot-msg " + (role === "user" ? "user" : "bot");
   msgDiv.textContent = content;
   targetDiv.appendChild(msgDiv);
-  targetDiv.scrollTop = targetDiv.scrollHeight;
+  
+  // Use enhanced scrolling with multiple timing attempts
+  scrollToBottom(targetDiv);
+  
+  // Additional scroll attempts to handle different rendering scenarios
+  setTimeout(() => scrollToBottom(targetDiv), 50);
+  setTimeout(() => scrollToBottom(targetDiv), 150);
+  
   return msgDiv;
 }
 
@@ -74,6 +97,7 @@ async function sendMessage(text, isModal) {
   const currentConversation = isModal ? modalConversation : conversation;
   const currentSendBtn = isModal ? modalSendBtn : sendBtn;
   const currentInput = isModal ? modalInput : input;
+  const targetDiv = isModal ? modalMessagesDiv : messagesDiv;
 
   // Only proceed if the elements exist for the current context
   if (!currentInput || !currentSendBtn) return;
@@ -132,7 +156,13 @@ Please provide a helpful and informative response about Gyasu based on the avail
     // Remove typing indicator and add actual response
     if (typingDiv) typingDiv.remove();
     currentConversation.push({ role: "assistant", content: reply });
-    appendMessage("bot", reply, isModal);
+    
+    // Add bot response with enhanced scrolling
+    const botMsgDiv = appendMessage("bot", reply, isModal);
+    
+    // Extra scroll insurance for bot responses (they tend to be longer)
+    setTimeout(() => scrollToBottom(targetDiv), 100);
+    setTimeout(() => scrollToBottom(targetDiv), 300);
 
   } catch (err) {
     console.error('Chat error:', err);
@@ -219,6 +249,12 @@ if (!isChatbotPage) {
       chatbotModal.classList.toggle('active');
       if (chatbotModal.classList.contains('active') && modalInput) {
         modalInput.focus();
+        // Scroll to bottom when modal opens (in case there are existing messages)
+        setTimeout(() => {
+          if (modalMessagesDiv) {
+            scrollToBottom(modalMessagesDiv);
+          }
+        }, 100);
       }
     });
   }
