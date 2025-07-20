@@ -1,5 +1,5 @@
 // === CHATBOT CONFIG ===
-const MODEL = "google/gemma-3n-e2b-it:free";
+const MODEL = "google/gemma-2-9b-it:free";
 
 // === KNOWLEDGE BASE ABOUT GYASU ===
 const KNOWLEDGE_BASE = `
@@ -105,18 +105,13 @@ Please provide a helpful and informative response about Gyasu based on the avail
 
   currentConversation.push({ role: "user", content: enhancedPrompt });
 
-  const body = {
+  const requestBody = {
     model: MODEL,
     messages: currentConversation,
-    temperature: 0.7 // Slightly higher for more conversational responses
+    temperature: 0.7
   };
 
   try {
-    // IMPORTANT: Replace 'YOUR_API_KEY_HERE' with your actual API key.
-    // For GitHub Pages, you'd typically need a serverless function (like Netlify Functions, Vercel Serverless Functions)
-    // to proxy your API calls and secure your API key, as exposing it directly in frontend JS is not recommended for production.
-    // For a simple demo, you might include it directly, but be aware of the security implications.
-
     const res = await fetch('https://gyasu-github-io.vercel.app/api/chat', {
       method: "POST",
       headers: {
@@ -126,8 +121,14 @@ Please provide a helpful and informative response about Gyasu based on the avail
     });
 
     if (!res.ok) {
-      const errText = await res.text();
-      throw new Error(`${res.status} ${res.statusText}: ${errText}`);
+      let errorMessage;
+      try {
+        const errorData = await res.json();
+        errorMessage = errorData.error || `HTTP ${res.status}: ${res.statusText}`;
+      } catch {
+        errorMessage = `HTTP ${res.status}: ${res.statusText}`;
+      }
+      throw new Error(errorMessage);
     }
 
     const data = await res.json();
@@ -139,64 +140,78 @@ Please provide a helpful and informative response about Gyasu based on the avail
     appendMessage("bot", reply, isModal);
 
   } catch (err) {
-    console.error(err);
+    console.error('Chat error:', err);
     if (typingDiv) typingDiv.remove();
-    appendMessage("bot", `⚠️ Sorry, I'm having trouble connecting right now. Please try again later or contact Gyasu directly.`, isModal);
+    
+    let errorMessage = "Sorry, I'm having trouble connecting right now. ";
+    if (err.message.includes('API key')) {
+      errorMessage += "The API configuration needs to be set up. ";
+    } else if (err.message.includes('404')) {
+      errorMessage += "The chat service is not available. ";
+    }
+    errorMessage += "Please try again later or contact Gyasu directly.";
+    
+    appendMessage("bot", `⚠️ ${errorMessage}`, isModal);
   } finally {
     if (currentSendBtn) currentSendBtn.disabled = false;
     if (currentInput) currentInput.focus();
   }
 }
 
-// Event Listeners - attached conditionally
+// Event Listeners - attached conditionally with null checks
 if (isChatbotPage) {
   // Main chatbot form handler for chatbot.html
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const text = input.value.trim();
-    if (text) sendMessage(text, false);
-  });
-  input.focus();
-  setTimeout(() => {
-    appendMessage("bot", "Hi! I'm Gyasu's AI assistant. I'm here to help you learn about his research, musical work, and background. What would you like to know about Gyasu?", false);
-  }, 500);
+  if (form && input) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (text) sendMessage(text, false);
+    });
+    input.focus();
+    setTimeout(() => {
+      appendMessage("bot", "Hi! I'm Gyasu's AI assistant. I'm here to help you learn about his research, musical work, and background. What would you like to know about Gyasu?", false);
+    }, 500);
+  }
 } else {
   // Modal chatbot form handler for index.html
-  modalForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const text = modalInput.value.trim();
-    if (text) sendMessage(text, true);
-  });
-  setTimeout(() => {
-    appendMessage("bot", "Hello! I'm here to help you learn about Gyasu Bajracharya. Feel free to ask me about his work!", true);
-  }, 1000);
+  if (modalForm && modalInput) {
+    modalForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = modalInput.value.trim();
+      if (text) sendMessage(text, true);
+    });
+    setTimeout(() => {
+      appendMessage("bot", "Hello! I'm here to help you learn about Gyasu Bajracharya. Feel free to ask me about his work!", true);
+    }, 1000);
+  }
 }
-
 
 // === THEME TOGGLE FUNCTIONALITY (COMMON TO BOTH PAGES) ===
 const toggle = document.getElementById('toggle-theme');
-const bodyElement = document.body; // Renamed to avoid conflict with `body` in sendMessage
+const bodyElement = document.body;
 const icon = document.getElementById('theme-icon');
 
 function setTheme(dark) {
   if (dark) {
     bodyElement.classList.add('dark-mode');
-    icon.textContent = '☾';
-    toggle.checked = true;
+    if (icon) icon.textContent = '☾';
+    if (toggle) toggle.checked = true;
   } else {
     bodyElement.classList.remove('dark-mode');
-    icon.textContent = '☀︎';
-    toggle.checked = false;
+    if (icon) icon.textContent = '☀︎';
+    if (toggle) toggle.checked = false;
   }
 }
 
-// On page load - removed localStorage to comply with restrictions
+// Set default theme
 setTheme(false);
 
-// On toggle
-toggle.addEventListener('change', () => {
-  setTheme(toggle.checked);
-});
+// Theme toggle event listener
+if (toggle) {
+  toggle.addEventListener('change', () => {
+    setTheme(toggle.checked);
+  });
+}
 
 // === CHATBOT MODAL FUNCTIONALITY (ONLY ON INDEX.HTML) ===
 if (!isChatbotPage) {
@@ -204,28 +219,33 @@ if (!isChatbotPage) {
   const chatbotModal = document.getElementById('chatbot-modal');
   const chatbotClose = document.getElementById('chatbot-close');
 
-  chatbotToggle.addEventListener('click', () => {
-    chatbotModal.classList.toggle('active');
-    if (chatbotModal.classList.contains('active')) {
-      modalInput.focus();
-    }
-  });
+  if (chatbotToggle && chatbotModal) {
+    chatbotToggle.addEventListener('click', () => {
+      chatbotModal.classList.toggle('active');
+      if (chatbotModal.classList.contains('active') && modalInput) {
+        modalInput.focus();
+      }
+    });
+  }
 
-  chatbotClose.addEventListener('click', () => {
-    chatbotModal.classList.remove('active');
-  });
+  if (chatbotClose && chatbotModal) {
+    chatbotClose.addEventListener('click', () => {
+      chatbotModal.classList.remove('active');
+    });
+  }
 
   // Close modal when clicking outside
-  document.addEventListener('click', (e) => {
-    if (chatbotModal && chatbotToggle && !chatbotModal.contains(e.target) && e.target !== chatbotToggle) {
-      chatbotModal.classList.remove('active');
-    }
-  });
+  if (chatbotModal && chatbotToggle) {
+    document.addEventListener('click', (e) => {
+      if (!chatbotModal.contains(e.target) && e.target !== chatbotToggle) {
+        chatbotModal.classList.remove('active');
+      }
+    });
+  }
 }
 
-
 // === NAVIGATION FUNCTIONALITY (COMMON TO BOTH PAGES) ===
-// Smooth scrolling for anchor links (adjusted for cross-page links)
+// Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"], a[href$=".html#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
@@ -243,10 +263,8 @@ document.querySelectorAll('a[href^="#"], a[href$=".html#"]').forEach(anchor => {
                 });
             }
         }
-        // For direct links like 'chatbot.html', let default behavior happen
     });
 });
-
 
 // Mobile navigation toggle
 const navToggle = document.getElementById('nav-toggle');
