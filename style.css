@@ -203,7 +203,9 @@ nav {
   overflow-y: auto;
   padding: 1rem;
   background: var(--warm-cream);
+  scroll-behavior: smooth;
 }
+
 
 .chatbot-msg {
   margin-bottom: 0.8rem;
@@ -296,18 +298,19 @@ nav {
 }
 
 .chatbot-modal {
-  position: fixed;
-  bottom: 100px;
-  right: 30px;
-  width: 400px;
-  height: 500px;
+  width: 100%;
+  max-width: 400px;
+  height: 500px; /* ADDED */
+  display: flex;
+  flex-direction: column;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  position: fixed;
+  bottom: 80px;
+  right: 40px;
   z-index: 1000;
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
+  overflow: hidden; /* important */
 }
 
 .chatbot-modal.active {
@@ -346,7 +349,9 @@ nav {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* prevent overflow from spilling */
 }
+
 
 .chatbot-modal .chatbot-messages {
   flex: 1;
