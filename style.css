@@ -47,12 +47,14 @@ nav {
 }
 
 .logo {
-  font-family: 'Nunito', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 400; /* slightly bolder, matches Al-Folio's bold name/title look */
   color: var(--brick-red);
   text-decoration: none;
+  letter-spacing: -0.01em; /* minor spacing adjustment to match system fonts */
 }
+
 
 .nav-links {
   display: flex;
@@ -63,8 +65,11 @@ nav {
 .nav-links a {
   color: var(--text-medium);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   transition: color 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500; /* optional: gives a slightly more structured look */
+  letter-spacing: -0.01em; /* optional: matches Al-Folio's tighter tracking */
 }
 
 .nav-links a:hover {
@@ -72,26 +77,30 @@ nav {
 }
 
 .hero {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   position: relative;
   background-image: url('background.png');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  padding: 120px 0;
+  padding: 140px 0;
   color: white;
   z-index: 1;
   overflow: hidden;
+  
 }
 
 
 
 
 .hero h1 {
-  font-family: 'Nunito', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 2.25rem;
+  font-weight: 600;
   color: var(--text-dark);
   margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+  line-height: 1.2; /* ↓ This reduces line spacing. Try values between 1.0 – 1.3 */
 }
 
 .hero-highlight {
@@ -102,8 +111,9 @@ nav {
   font-size: 1.1rem;
   color: var(--text-medium);
   max-width: 600px;
-  margin: 0 auto 3rem;
+  margin: 0 0 3rem 0; /* no auto-centering */
   font-weight: 300;
+  text-align: left;
 }
 
 .temple-accent {
@@ -603,9 +613,9 @@ input:checked + .slider:before {
 }
 
 #about-img {
-  width: 250px;
+  width: 400px;
   height: auto;
-  border: 2px solid #000000;
+  border: 0px solid #000000;
   flex-shrink: 0;
   border-radius: 8px;
 }
