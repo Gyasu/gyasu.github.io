@@ -669,7 +669,7 @@ a:focus {
     padding: 0px 0 60px;
     min-height: 70vh;
     background-position: center center;
-    background-size: 110%;
+    background-size: 100%;
     background-attachment: scroll;
     display: flex;
     align-items: center;
@@ -798,19 +798,19 @@ a:focus {
 
   /* Hero adjustments for very small screens */
   .hero {
-    padding: 90px 0 50px;
-    min-height: 65vh;
-    background-position: center center;
-    background-size: 105%;
+    padding: 0px 0 50px;
+    min-height: 55vh;
+    background-position: top center;
+    background-size: 100%;
   }
 
   .hero h1 {
-    font-size: 1.5rem;
+    font-size: 1rem;
     line-height: 1.4;
   }
 
   .hero-intro {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     max-width: 180px;
     line-height: 1.6;
   }
@@ -830,15 +830,15 @@ a:focus {
 
   /* About section */
   #about {
-    padding: 1rem;
+    padding: 0rem;
   }
 
   #about-img {
-    max-width: 250px;
+    max-width: 300px;
   }
   
   .social-links a {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
   }
 
   /* Chatbot very small screens */
