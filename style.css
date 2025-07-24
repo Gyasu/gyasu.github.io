@@ -668,8 +668,8 @@ a:focus {
   .hero {
     padding: 100px 0 60px;
     min-height: 70vh;
-    background-position: center 30%;
-    background-size: cover;
+    background-position: center center;
+    background-size: contain;
     background-attachment: scroll;
     display: flex;
     align-items: center;
@@ -687,9 +687,9 @@ a:focus {
 
   .hero-intro {
     font-size: 0.95rem;
-    max-width: 100%;
+    max-width: 280px;
     margin-bottom: 2rem;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   /* Highlights section */
@@ -730,8 +730,9 @@ a:focus {
   }
   
   .social-links {
-    justify-content: center;
+    justify-content: flex-start;
     margin-left: 0;
+    margin-top: 3rem;
     gap: 1.5rem;
   }
   
@@ -799,7 +800,8 @@ a:focus {
   .hero {
     padding: 90px 0 50px;
     min-height: 65vh;
-    background-position: center 25%;
+    background-position: center center;
+    background-size: contain;
   }
 
   .hero h1 {
@@ -809,6 +811,7 @@ a:focus {
 
   .hero-intro {
     font-size: 0.9rem;
+    max-width: 250px;
     line-height: 1.6;
   }
 
