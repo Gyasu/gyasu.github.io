@@ -669,7 +669,7 @@ a:focus {
     padding: 100px 0 60px;
     min-height: 70vh;
     background-position: center center;
-    background-size: contain;
+    background-size: 110%;
     background-attachment: scroll;
     display: flex;
     align-items: center;
@@ -801,7 +801,7 @@ a:focus {
     padding: 90px 0 50px;
     min-height: 65vh;
     background-position: center center;
-    background-size: contain;
+    background-size: 105%;
   }
 
   .hero h1 {
