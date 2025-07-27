@@ -424,6 +424,10 @@ footer {
 }
 
 /* About Section */
+
+/* Match hero section styles for the About section */
+/* About Section - Reduced Line Height */
+
 #about {
   display: flex;
   flex-wrap: wrap;
@@ -435,11 +439,12 @@ footer {
 }
 
 #about-img {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   height: auto;
-  border: 0px solid #000000;
-  flex-shrink: 0;
   border-radius: 8px;
+  flex-shrink: 0;
+  object-fit: cover;
 }
 
 .about-text {
@@ -448,8 +453,39 @@ footer {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
   color: var(--text-dark);
-  line-height: 1.6;
+  line-height: 1.4; /* Reduced from 1.6 */
 }
+
+#about h2 {
+  font-size: 2.25rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+  line-height: 1.1; /* Reduced from 1.2 */
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  font-weight: 300;
+  line-height: 1.5; /* Reduced from 1.8 */
+  color: var(--text-medium);
+  margin-bottom: 1.5rem;
+  text-align: left;
+  max-width: 600px;
+}
+
+.about-text a {
+  text-decoration: none; /* removes underline */
+  color: #6dc3c3; /* light blue, adjust as needed */
+  transition: color 0.2s ease;
+}
+
+.about-text a:hover {
+  color: #1c6cd6; /* slightly darker blue on hover */
+}
+
+
 
 .social-links {
   margin-top: 2rem;
