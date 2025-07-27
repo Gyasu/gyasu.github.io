@@ -406,7 +406,7 @@ nav {
 }
 
 footer {
-  background: var(--dark-wood);
+  background: var(--text-medium);
   color: var(--warm-cream);
   text-align: center;
   padding: 2rem 0;
@@ -615,6 +615,18 @@ a:focus {
 #nav-toggle {
   display: none;
 }
+
+.footer-note {
+  flex: 1;
+  min-width: 300px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+  color: var(--text-dark);
+  line-height: 1.4;
+  text-align: center;
+  margin-top: 2rem;
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   * {

@@ -135,15 +135,16 @@
     </div>
   </div>
 
-  <footer>
-    <div class="container">
-      <p>
-        <span class="footer-accent"></span>
-        ...
-        <span class="footer-accent"></span>
-      </p>
-    </div>
+  <footer class="footer-note">
+    <p>© Gyasu Bajracharya, 2025. All rights reserved. Do not copy or reuse without permission.</p>
+    <p id="last-updated"></p>
   </footer>
+
+  <script>
+    document.getElementById("last-updated").textContent =
+      "Last updated: " + new Date(document.lastModified).toLocaleDateString();
+  </script>
+
 
   <script src="chatbot.js"></script> </body>
 </html>
