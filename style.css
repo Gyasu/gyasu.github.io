@@ -406,8 +406,8 @@ nav {
 }
 
 footer {
-  background: var(--text-medium);
-  color: var(--warm-cream);
+  background: #fefbf3;
+  color: #958b76;
   text-align: center;
   padding: 2rem 0;
   margin-top: 4rem;
