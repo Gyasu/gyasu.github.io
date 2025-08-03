@@ -8,7 +8,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"> </head>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="chess.css">
+</head>
 <body>
   <header>
     <nav class="container">
@@ -90,6 +92,41 @@
       </div>
     </section>
 
+    <section class="chess-section">
+      <div class="container">
+        <h2>Make Your Move!</h2>
+        <p style="margin-bottom: 2rem; color: var(--dark-gray);">
+          Anyone can make a move! Check back later to see how the game unfolds.
+        </p>
+        
+        <div class="chess-container">
+          <div class="chess-board" id="chess-board"></div>
+          
+          <div class="chess-info">
+            <h3>Game Info</h3>
+            
+            <div class="player-input">
+              <input type="text" id="player-name" placeholder="Enter your name" maxlength="20">
+            </div>
+            
+            <div class="game-status" id="game-status">
+              <strong>White to move</strong><br>
+              Welcome! Make the first move.
+            </div>
+            
+            <div class="move-history">
+              <h4>Recent Moves</h4>
+              <div id="move-list">
+                <div style="color: var(--dark-gray); font-style: italic;">No moves yet. Be the first to play!</div>
+              </div>
+            </div>
+            
+            <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
 
 
 
@@ -146,5 +183,7 @@
   </script>
 
 
-  <script src="chatbot.js"></script> </body>
+  <script src="chatbot.js"></script> 
+  <script src="chess.js"></script>
+</body>
 </html>
