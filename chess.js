@@ -233,9 +233,14 @@ function makeMove(fromRow, fromCol, toRow, toCol, playerName) {
 
 function updateGameStatus() {
   const status = document.getElementById('game-status');
-  const playerColor = currentPlayer === 'white' ? 'Black' : 'White';
-  const totalMoves = gameHistory.length;
-  
+  if (!status) {
+    console.warn("Element with ID 'game-status' not found.");
+    return;
+  }
+
+  const playerColor = currentPlayer === 'white' ? 'White' : 'Black';
+  const totalMoves = Array.isArray(gameHistory) ? gameHistory.length : 0;
+
   status.innerHTML = `
     <span class="chess-status-indicator ${currentPlayer === 'white' ? 'white-turn' : 'black-turn'}"></span>
     <strong>${playerColor} to move</strong><br>
