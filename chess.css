@@ -70,6 +70,8 @@
   cursor: pointer;
   position: relative;
   user-select: none;
+  /* Force chess pieces to always be black */
+  color: #000000 !important;
 }
 
 .chess-square.light {
@@ -95,6 +97,66 @@
 
 .chess-square.last-move {
   background-color: rgba(255, 255, 0, 0.3);
+}
+
+/* Ensure chess pieces stay black even in dark mode */
+.dark-mode .chess-square {
+  color: #000000 !important;
+}
+
+/* Dark mode adjustments for other chess elements */
+.dark-mode .chess-section {
+  color: #ffffff;
+}
+
+.dark-mode .chess-section h2 {
+  color: #ffffff;
+}
+
+.dark-mode .chess-section p {
+  color: #cccccc;
+}
+
+.dark-mode .chess-info {
+  background: #333333;
+  color: #cccccc;
+}
+
+.dark-mode .chess-info h3 {
+  color: #ffffff;
+}
+
+.dark-mode .game-status {
+  background: #444444;
+  color: #cccccc;
+}
+
+.dark-mode .move-history {
+  background: #444444;
+  color: #cccccc;
+}
+
+.dark-mode .move-history h4 {
+  color: #ffffff;
+}
+
+.dark-mode .move-entry {
+  background: #555555;
+  color: #cccccc;
+}
+
+.dark-mode .move-entry:nth-child(odd) {
+  background: #4a4a4a;
+}
+
+.dark-mode .player-input input {
+  background: #444444;
+  color: #ffffff;
+  border-color: #666666;
+}
+
+.dark-mode .player-input input:focus {
+  border-color: var(--accent-color);
 }
 
 /* Info Panel */
