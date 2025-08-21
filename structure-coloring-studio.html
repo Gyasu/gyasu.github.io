@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>PDB B-factor Coloring Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Professional molecular structure coloring tool for PDB files with data-driven visualization">
+
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 16px 64px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 24px 96px rgba(0, 0, 0, 0.2);
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --border-light: #e2e8f0;
+            --bg-subtle: #f7fafc;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-primary);
+            position: relative;
+            overflow-x: hidden;
+            font-feature-settings: 'kern' 1, 'liga' 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3), transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 200, 255, 0.3), transparent 50%);
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            backdrop-filter: blur(20px);
+            background: var(--glass-bg);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-heavy);
+            overflow: hidden;
+            position: relative;
+            animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .header {
+            background: var(--secondary-gradient);
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="40" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.75em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .form-container {
+            padding: 60px 40px;
+            background: white;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 40px;
+        }
+
+        .form-section {
+            background: var(--bg-subtle);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .section-title {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            font-size: 1.4em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 1em;
+            letter-spacing: -0.01em;
+        }
+
+        .file-upload {
+            position: relative;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--border-light);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            background: white;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f8faff 0%, #fff 100%);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .file-upload-area.has-file {
+            border-color: var(--success);
+            background: linear-gradient(135deg, #f0fdf4 0%, #fff 100%);
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 16px;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .upload-text {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .upload-subtext {
+            font-size: 0.9em;
+            color: var(--text-muted);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: inherit;
+            font-weight: 400;
+            background: white;
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .process-button {
+            width: 100%;
+            padding: 20px 32px;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.15em;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-medium);
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(245, 87, 108, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .form-section {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Molecular Structure Coloring Studio</h1>
+                <p class="subtitle">Replace PDB B-factor values with your desired scores!</p>
+            </div>
+        </header>
+
+        <div class="form-container">
+            <form id="coloringForm" class="form-grid">
+                <section class="form-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">📁</span>
+                        Structure & Data Files
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="pdbFile">PDB Structure File</label>
+                        <div class="file-upload">
+                            <input type="file" id="pdbFile" accept=".pdb" required>
+                            <div class="file-upload-area">
+                                <div class="upload-icon">🧬</div>
+                                <div class="upload-text">Drop your PDB file here</div>
+                                <div class="upload-subtext">or click to browse</div>
+                            </div>
+                        </div>
+                        <div class="help-text">Upload your protein structure file in PDB format</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="dataFile">Values Data File</label>
+                        <div class="file-upload">
+                            <input type="file" id="dataFile" accept=".xlsx,.xls,.csv,.tsv" required>
+                            <div class="file-upload-area">
+                                <div class="upload-icon">📊</div>
+                                <div class="upload-text">Drop your data file here</div>
+                                <div class="upload-subtext">Excel, CSV, or TSV format</div>
+                            </div>
+                        </div>
+                        <div class="help-text">Two-column format: Position (1-based) and corresponding values</div>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">⚙️</span>
+                        Configuration
+                    </h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="chainId">Target Chain</label>
+                            <input type="text" id="chainId" class="form-input" placeholder="A" maxlength="1" required>
+                            <div class="help-text">Chain identifier to color (e.g., A, B, C)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="offset">Offset (UniProt position − Structure position)</label>
+                            <input type="number" id="offset" class="form-input" value="0" placeholder="0">
+                            <div class="help-text">
+                                Enter the offset calculated as: <strong>first residue’s UniProt position − first residue’s PDB position</strong>.<br>
+                                Example: If the first residue in the PDB chain is residue 3, and its UniProt position is 5, enter <strong>2</strong>.
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+                <button type="submit" class="process-button" id="processBtn">
+                    ✨ Generate Colored Structure
+                </button>
+
+                <section class="form-section" style="text-align:center; margin-top:20px;">
+                    <h2 class="section-title">
+                        <span class="section-icon">💻</span>
+                        PyMOL Coloring Tip
+                    </h2>
+                    <div class="help-text" style="margin-bottom:10px;">
+                        After downloading your processed PDB, you can color it in PyMOL using the B-factor values with the following command:
+                    </div>
+                    <pre id="pymolCommand" style="
+                        font-size: 1.5em; 
+                        font-weight: bold; 
+                        background: #f0f0f0; 
+                        display: inline-block; 
+                        padding: 15px 25px; 
+                        border-radius: 8px;
+                        text-align: center;
+                        ">
+                spectrum b, blue_white_red, chain A
+                show cartoon
+                    </pre>
+                    <div style="margin-top:10px; font-size:0.95em;">
+                        Replace <code>A</code> with your target chain identifier. For more spectrum commands, check out 
+                        <a href="https://pymolwiki.org/index.php/Spectrum" target="_blank">PyMOL Spectrum Wiki</a>.
+                    </div>
+                </section>
+
+
+            </form>
+
+            <div class="status-message" id="status"></div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text">Processing your molecular structure...</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+            updateGradientPreview();
+        });
+
+        function initializeEventListeners() {
+            document.getElementById('pdbFile').addEventListener('change', handleFileSelect);
+            document.getElementById('dataFile').addEventListener('change', handleFileSelect);
+            document.getElementById('coloringForm').addEventListener('submit', handleFormSubmission);
+            setupDragAndDrop();
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const fileUpload = event.target.closest('.file-upload');
+            const uploadArea = fileUpload.querySelector('.file-upload-area');
+            const uploadText = uploadArea.querySelector('.upload-text');
+            const uploadSubtext = uploadArea.querySelector('.upload-subtext');
+            if (file) {
+                uploadText.textContent = `✅ ${file.name}`;
+                uploadSubtext.textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+                uploadArea.classList.add('has-file');
+            } else {
+                uploadText.textContent = event.target.id === 'dataFile' ? 'Drop your data file here' : 'Drop your PDB file here';
+                uploadSubtext.textContent = event.target.id === 'dataFile' ? 'Excel, CSV, or TSV format' : 'or click to browse';
+                uploadArea.classList.remove('has-file');
+            }
+        }
+
+        function updateGradientPreview() {
+            const colorLow = document.getElementById('colorLow').value;
+            const colorHigh = document.getElementById('colorHigh').value;
+            document.getElementById('gradientPreview').style.background = `linear-gradient(to right, ${colorLow}, ${colorHigh})`;
+        }
+
+        function setupDragAndDrop() {
+            ['pdbFile', 'dataFile'].forEach(id => {
+                const fileInput = document.getElementById(id);
+                const uploadArea = fileInput.closest('.file-upload').querySelector('.file-upload-area');
+                ['dragenter','dragover','dragleave','drop'].forEach(e => uploadArea.addEventListener(e, preventDefaults));
+                ['dragenter','dragover'].forEach(e => uploadArea.addEventListener(e, () => { uploadArea.style.borderColor = '#667eea'; uploadArea.style.transform='translateY(-4px) scale(1.02)'; }));
+                ['dragleave','drop'].forEach(e => uploadArea.addEventListener(e, () => { uploadArea.style.borderColor=''; uploadArea.style.transform=''; }));
+                uploadArea.addEventListener('drop', e => { const files = e.dataTransfer.files; if(files.length>0){ fileInput.files = files; handleFileSelect({target:fileInput}); } });
+            });
+        }
+
+        function preventDefaults(e){ e.preventDefault(); e.stopPropagation(); }
+
+        function showStatus(message, type) {
+            const statusElement = document.getElementById('status');
+            statusElement.textContent = message;
+            statusElement.className = `status-message ${type}`;
+            statusElement.style.display = 'block';
+            if(type==='info') setTimeout(()=>{statusElement.style.display='none';},5000);
+        }
+
+        function showLoading(show){
+            const overlay=document.getElementById('loadingOverlay');
+            document.getElementById('processBtn').disabled=show;
+            overlay.style.display = show ? 'flex' : 'none';
+        }
+
+        async function readFileAsText(file){
+            return new Promise((resolve,reject)=>{
+                const reader=new FileReader();
+                reader.onload=e=>resolve(e.target.result);
+                reader.onerror=reject;
+                reader.readAsText(file);
+            });
+        }
+
+        async function parseDataFile(file){
+            const ext=file.name.split('.').pop().toLowerCase();
+            if(ext==='csv'||ext==='tsv') return parseTextFile(file,ext==='tsv'?'\t':',');
+            return parseExcelFile(file);
+        }
+
+        async function parseTextFile(file, delimiter){
+            const text = await readFileAsText(file);
+            const lines = text.trim().split('\n');
+            const startIdx = lines[0] && !lines[0].split(delimiter)[0].match(/^\d/)?1:0;
+            const data={};
+            for(let i=startIdx;i<lines.length;i++){
+                const parts=lines[i].split(delimiter);
+                if(parts.length>=2){ const pos=parseInt(parts[0].trim()); const val=parseFloat(parts[1].trim()); if(!isNaN(pos)&&!isNaN(val)) data[pos]=val; }
+            }
+            return data;
+        }
+
+        async function parseExcelFile(file){
+            const buffer = await file.arrayBuffer();
+            const wb = XLSX.read(buffer,{type:'array'});
+            const sheet = wb.Sheets[wb.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(sheet,{header:1});
+            const startIdx = jsonData[0] && typeof jsonData[0][0]==='string'?1:0;
+            const data={};
+            for(let i=startIdx;i<jsonData.length;i++){
+                const row=jsonData[i]; if(row && row.length>=2){ const pos=parseInt(row[0]); const val=parseFloat(row[1]); if(!isNaN(pos)&&!isNaN(val)) data[pos]=val; }
+            }
+            return data;
+        }
+
+        function normalizeValues(data){
+            const vals=Object.values(data);
+            if(vals.length===0) return data;
+            const min=Math.min(...vals), max=Math.max(...vals), range=max-min;
+            if(range===0){ const norm={}; for(const pos in data) norm[pos]=50; return norm; }
+            const norm={};
+            for(const [pos,val] of Object.entries(data)) norm[pos]=((val-min)/range)*100;
+            return norm;
+        }
+
+        function processPDBContent(pdbContent, normalizedData, chainId, offset){
+            const lines=pdbContent.split('\n'), processed=[];
+            for(const line of lines){
+                if(line.startsWith('ATOM  ')||line.startsWith('HETATM')){
+                    const currentChain=line.charAt(21);
+                    const resNum=parseInt(line.substring(22,26).trim());
+                    let bFactor=0.0;
+                    if(line.startsWith('ATOM  ') && currentChain===chainId){ const uniPos=resNum+offset; bFactor=normalizedData[uniPos]||0.0; }
+                    const bStr=bFactor.toFixed(2).padStart(6);
+                    processed.push(line.substring(0,60)+bStr+line.substring(66));
+                }else{ processed.push(line); }
+            }
+            return processed.join('\n');
+        }
+
+        function downloadProcessedFile(content, originalFileName, chainId){
+            const baseName=originalFileName.replace(/\.[^/.]+$/,"");
+            const timestamp=new Date().toISOString().slice(0,10).replace(/-/g,'');
+            const fileName=`${baseName}_colored_chain${chainId}_${timestamp}.pdb`;
+            const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
+            const url=URL.createObjectURL(blob);
+            const link=document.createElement('a'); link.href=url; link.download=fileName; link.style.display='none';
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            setTimeout(()=>URL.revokeObjectURL(url),100);
+            return fileName;
+        }
+
+        function validateInputs(pdbFile,dataFile,chainId){
+            const errors=[];
+            if(!pdbFile) errors.push('Please select a PDB structure file');
+            else if(!pdbFile.name.toLowerCase().endsWith('.pdb')) errors.push('PDB file must have .pdb extension');
+            if(!dataFile) errors.push('Please select a data file');
+            else{ const ext=dataFile.name.split('.').pop().toLowerCase(); if(!['xlsx','xls','csv','tsv'].includes(ext)) errors.push('Data file must be Excel (.xlsx, .xls) or text (.csv, .tsv)'); }
+            if(!chainId||chainId.trim().length!==1) errors.push('Please specify a single chain identifier (e.g., A, B, C)');
+            return errors;
+        }
+
+        async function handleFormSubmission(event){
+            event.preventDefault();
+            try{
+                showLoading(true); hideStatus();
+                const pdbFile=document.getElementById('pdbFile').files[0];
+                const dataFile=document.getElementById('dataFile').files[0];
+                const chainId=document.getElementById('chainId').value.trim().toUpperCase();
+                const offset=parseInt(document.getElementById('offset').value)||0;
+                const errors=validateInputs(pdbFile,dataFile,chainId);
+                if(errors.length>0) throw new Error(errors.join('. '));
+                updateLoadingText('Reading input files...');
+                const pdbContent=await readFileAsText(pdbFile);
+                const rawData=await parseDataFile(dataFile);
+                if(Object.keys(rawData).length===0) throw new Error('No valid data found in the uploaded file.');
+                updateLoadingText('Processing molecular structure...');
+                const normalized=normalizeValues(rawData);
+                const processed=processPDBContent(pdbContent,normalized,chainId,offset);
+                updateLoadingText('Generating download...');
+                const fileName=downloadProcessedFile(processed,pdbFile.name,chainId);
+                showStatus(`✅ Success! Downloaded "${fileName}" with ${Object.keys(rawData).length} data points mapped to chain ${chainId}`,'success');
+            }catch(error){ console.error(error); showStatus(`❌ Error: ${error.message}`,'error'); }
+            finally{ showLoading(false); }
+        }
+
+        function updateLoadingText(text){ const el=document.querySelector('.loading-text'); if(el) el.textContent=text; }
+        function hideStatus(){ document.getElementById('status').style.display='none'; }
+
+        // Add interactive effects
+        function addInteractiveEffects(){
+            document.querySelectorAll('.form-section').forEach(section=>{ section.addEventListener('mouseenter',()=>section.style.transform='translateY(-2px)'); section.addEventListener('mouseleave',()=>section.style.transform='translateY(0)'); });
+            document.querySelectorAll('.form-input').forEach(input=>{ input.addEventListener('focus',()=>input.parentElement.style.transform='translateY(-1px)'); input.addEventListener('blur',()=>input.parentElement.style.transform='translateY(0)'); });
+        }
+        document.addEventListener('DOMContentLoaded',()=>setTimeout(addInteractiveEffects,500));
+
+        document.addEventListener('keydown', function(e){ if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){ e.preventDefault(); document.getElementById('coloringForm').dispatchEvent(new Event('submit')); } });
+
+        function setupProgressTracking(){
+            [document.getElementById('pdbFile'),document.getElementById('dataFile')].forEach(input=>{
+                input.addEventListener('change', function(e){
+                    const file=e.target.files[0]; if(file&&file.size>5*1024*1024) showStatus('⚠️ Large file detected. Processing may take a few moments...','info');
+                });
+            });
+        }
+        document.addEventListener('DOMContentLoaded', setupProgressTracking);
+    </script>
+</body>
+
