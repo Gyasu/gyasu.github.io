@@ -37,6 +37,37 @@
     </nav>
   </header>
 
+  <!-- PREPRINT POPUP - NEW ADDITION -->
+  <div id="preprint-popup" class="popup-overlay">
+    <div class="popup-content">
+      <button class="popup-close-btn" onclick="closePopup()">&times;</button>
+      
+      <div class="popup-header">
+        <span class="popup-icon">📄</span>
+        <span class="popup-badge">New Preprint</span>
+      </div>
+      
+      <h2 class="popup-title">Human Spatial Constraint (HSC) Preprint Available!</h2>
+      
+      <p class="popup-description">
+        I'm excited to share my latest preprint! Check it out on bioRxiv to learn more about HSC.
+      </p>
+      
+      <div class="popup-buttons">
+        <a href="https://www.biorxiv.org/content/10.1101/2025.10.15.682722v1" 
+           target="_blank" 
+           class="popup-btn popup-btn-primary"
+           onclick="trackPreprintClick()">
+          Read Preprint
+        </a>
+        <button class="popup-btn popup-btn-secondary" onclick="closePopup()">
+          Maybe Later
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- END PREPRINT POPUP -->
+
   <main>
       <section class="hero">
         <div class="container">
@@ -85,7 +116,7 @@
 
         <p>
           Outside of research, I enjoy making music, working out, playing tennis and chess, and watching Manchester United (painfully) and Formula 1. 
-          I’ll (hopefully) post about these interests here, too.
+          I'll (hopefully) post about these interests here, too.
         </p>
 
         <p>
@@ -184,8 +215,8 @@
       "Last updated: " + new Date(document.lastModified).toLocaleDateString();
   </script>
 
-
   <script src="chatbot.js"></script> 
   <script src="chess.js"></script>
+  <script src="popup.js"></script> <!-- NEW SCRIPT FILE -->
 </body>
 </html>
