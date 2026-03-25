@@ -844,31 +844,33 @@ a:focus {
     padding: 0 1.5rem;
   }
 
-  /* Hero Section — side by side layout on mobile */
+  /* Hero Section — stacked layout on mobile: text on top, image below */
   .hero {
-    padding: 100px 1rem 40px;
+    padding: 100px 1rem 0;
     min-height: auto;
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
   }
 
-  /* Pull image out of absolute positioning, match height of text column */
+  .hero .container {
+    order: 1;
+    width: 100%;
+  }
+
+  /* Image below the text, full width */
   .hero-img {
     position: relative;
     top: auto;
     right: auto;
     bottom: auto;
-    width: auto;
-    height: 100%;
-    max-width: 45%;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
     object-fit: contain;
-    object-position: center;
     opacity: 1;
     order: 2;
-    flex-shrink: 0;
-    align-self: center;
+    margin-top: 1.5rem;
   }
 
   /* Always show theme toggle on mobile (don't hide on scroll) */
@@ -1016,7 +1018,7 @@ a:focus {
   }
 
   .hero-img {
-    max-width: 40%;
+    max-width: 100%;
   }
 
   .hero h1 {
