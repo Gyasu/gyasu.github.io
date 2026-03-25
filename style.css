@@ -850,22 +850,25 @@ a:focus {
     min-height: auto;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     gap: 1rem;
   }
 
-  /* Pull image out of absolute positioning, place inline next to text */
+  /* Pull image out of absolute positioning, match height of text column */
   .hero-img {
     position: relative;
     top: auto;
     right: auto;
     bottom: auto;
-    width: 42%;
-    height: auto;
+    width: auto;
+    height: 100%;
+    max-width: 45%;
     object-fit: contain;
+    object-position: center;
     opacity: 1;
     order: 2;
     flex-shrink: 0;
+    align-self: center;
   }
 
   /* Always show theme toggle on mobile (don't hide on scroll) */
@@ -1013,7 +1016,7 @@ a:focus {
   }
 
   .hero-img {
-    width: 38%;
+    max-width: 40%;
   }
 
   .hero h1 {
