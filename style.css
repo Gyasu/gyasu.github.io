@@ -844,21 +844,28 @@ a:focus {
     padding: 0 16px;
   }
 
-  /* Hero Section - Major improvements */
+  /* Hero Section — side by side layout on mobile */
   .hero {
-    padding: 120px 0 60px;
-    min-height: 75vh;
+    padding: 100px 1rem 40px;
+    min-height: auto;
     display: flex;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
   }
 
-  /* On mobile, shrink images to bottom-right, below the text */
+  /* Pull image out of absolute positioning, place inline next to text */
   .hero-img {
-    height: 45%;
+    position: relative;
     top: auto;
-    bottom: 0;
-    right: 0;
-    opacity: 0.6;
+    right: auto;
+    bottom: auto;
+    width: 42%;
+    height: auto;
+    object-fit: contain;
+    opacity: 1;
+    order: 2;
+    flex-shrink: 0;
   }
 
   /* Always show theme toggle on mobile (don't hide on scroll) */
@@ -868,19 +875,22 @@ a:focus {
   }
 
   .hero .container {
-    width: 100%;
+    order: 1;
+    flex: 1;
+    min-width: 0;
+    padding: 0;
   }
 
   .hero h1 {
-    font-size: 1.75rem;
+    font-size: 1.4rem;
     line-height: 1.3;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .hero-intro {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     max-width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     line-height: 1.6;
   }
 
@@ -995,12 +1005,16 @@ a:focus {
 
   /* Hero adjustments for very small screens */
   .hero {
-    padding: 110px 0 50px;
-    min-height: 55vh;
+    padding: 90px 0.75rem 40px;
+    gap: 0.75rem;
+  }
+
+  .hero-img {
+    width: 38%;
   }
 
   .hero h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     line-height: 1.4;
   }
 
