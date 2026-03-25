@@ -847,14 +847,18 @@ a:focus {
   /* Hero Section - Major improvements */
   .hero {
     padding: 120px 0 60px;
-    min-height: 60vh;
+    min-height: 75vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
 
-  /* Hide decorative background images on mobile — they overlap content */
+  /* On mobile, shrink images to bottom-right, below the text */
   .hero-img {
-    display: none !important;
+    height: 45%;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    opacity: 0.6;
   }
 
   /* Always show theme toggle on mobile (don't hide on scroll) */
@@ -903,7 +907,7 @@ a:focus {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 1.5rem;
+    padding: 1.5rem 2rem;
     gap: 1.5rem;
   }
 
