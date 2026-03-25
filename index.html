@@ -6,36 +6,37 @@
   <title>Gyasu Bajracharya</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
 
-  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+  <script>if((localStorage.getItem('theme')??"dark")==="dark")document.documentElement.classList.add('dark-mode');</script>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="chess.css">
 </head>
 <body>
+  <div id="page-transition"></div>
   <header>
     <nav class="container">
+      <button id="nav-toggle" aria-label="Open navigation">☰</button>
       <a href="#" class="logo">Gyasu Bajracharya</a>
-      <ul class="nav-links">
-        <li><a href="#research">Research</a></li>
-        <li><a href="structure-coloring-studio.html">PDB Color Tool</a></a></li>
-        <li><a href="#music">Music</a></li>
-        <li><a href="chatbot.html">AI Assistant</a></li> 
-        <li><a href="#cv">CV</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-
-      <label class="switch">
-        <input type="checkbox" id="toggle-theme">
-        <span class="slider">
-          <span class="icon" id="theme-icon">☀️</span>
-        </span>
-      </label>
-
-      <button id="nav-toggle" aria-label="Toggle navigation" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color: var(--brick-red);">
-        ☰
-      </button>
+      <button id="toggle-theme" aria-label="Toggle dark mode">☾</button>
     </nav>
   </header>
+
+  <!-- Sidebar overlay -->
+  <div id="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <button id="sidebar-close" aria-label="Close navigation">&times;</button>
+    <ul class="sidebar-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="structure-coloring-studio.html">PDB Color Tool</a></li>
+      <li><a href="#music">Music</a></li>
+      <li><a href="chatbot.html">AI Assistant</a></li>
+      <li><a href="#cv">CV</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </aside>
 
   <!-- PREPRINT POPUP - NEW ADDITION -->
   <div id="preprint-popup" class="popup-overlay">
@@ -70,6 +71,8 @@
 
   <main>
       <section class="hero">
+        <img class="hero-img hero-img-light" src="background.png" alt="">
+        <img class="hero-img hero-img-dark" src="darkbackground.png" alt="">
         <div class="container">
           <h1>
             Exploring<br>
@@ -100,86 +103,128 @@
    
   </main>
 
-    <section id="about" style="padding: 2rem; max-width: 900px; margin: auto;">
-      <img id="about-img" src="profile.jpg" alt="Gyasu Bajracharya">
-
+    <section id="about" class="fade-in">
       <div class="about-text">
         <h2>About Me</h2>
 
         <p>
-          Hi! I'm Gyasu, a PhD candidate in 
-          <a href="https://biophysics.ucsf.edu/" target="_blank" rel="noopener noreferrer">Biophysics at UCSF</a>, 
-          advised by <a href="https://capralab.org/" target="_blank" rel="noopener noreferrer">Dr. Tony Capra</a>, where 
-          I work at the intersection of machine learning and biology. My current research focuses on understanding what protein language models learn about biology. 
-          I also develop deep learning and statistical methods to predict the effects of genetic variation for disease research and therapeutic protein engineering.
+          Hi! I'm Gyasu, a PhD candidate in
+          <a href="https://biophysics.ucsf.edu/" target="_blank" rel="noopener noreferrer">Biophysics at UCSF</a>,
+          advised by <a href="https://capralab.org/" target="_blank" rel="noopener noreferrer">Dr. Tony Capra</a>, where
+          I work at the intersection of machine learning and biology.
         </p>
 
-        <p>
-          Outside of research, I enjoy making music, working out, playing tennis and chess, and watching Manchester United (painfully) and Formula 1. 
-          I'll (hopefully) post about these interests here, too.
-        </p>
+        <div class="about-more" id="about-more">
+          <p>
+            My current research focuses on understanding what protein language models learn about biology.
+            I also develop deep learning and statistical methods to predict the effects of genetic variation for disease research and therapeutic protein engineering.
+          </p>
+          <p>
+            Outside of research, I enjoy making music, working out, playing tennis and chess, and watching Manchester United (painfully) and Formula 1.
+            I'll (hopefully) post about these interests here, too.
+          </p>
+          <p>
+            I'm always happy to connect, collaborate, or help however I can!
+          </p>
+        </div>
 
-        <p>
-          I'm always happy to connect, collaborate, or help however I can!
-        </p>
+        <button class="read-more-btn" id="read-more-btn" onclick="toggleAbout()">Read more</button>
       </div>
+
+      <img id="about-img" src="profile.jpg" alt="Gyasu Bajracharya">
     </section>
 
-    <section class="chess-section">
+    <section class="highlights fade-in">
       <div class="container">
-        <h2>Make Your Move!</h2>
-        <p style="margin-bottom: 2rem; color: var(--dark-gray);">
-          Anyone can make a move! Check back later to see how the game unfolds.
-        </p>
-        
-        <div class="chess-container">
-          <div class="chess-board" id="chess-board"></div>
-          
-          <div class="chess-info">
-            <h3>Game Info</h3>
-            
-            <div class="player-input">
-              <input type="text" id="player-name" placeholder="Enter your name" maxlength="20">
-            </div>
-            
-            <div class="game-status" id="game-status">
-              <strong>White to move</strong><br>
-              Welcome! Make the first move.
-            </div>
-            
-            <div class="move-history">
-              <h4>Recent Moves</h4>
-              <div id="move-list">
-                <div style="color: var(--dark-gray); font-style: italic;">No moves yet. Be the first to play!</div>
-              </div>
-            </div>
-            
-            <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+        <div class="highlight-grid">
+          <div class="highlight-card">
+            <span class="card-number">01</span>
+            <h3>Research</h3>
+            <p>Exploring what protein language models learn about biology — and building methods to predict how genetic variation shapes disease and protein function.</p>
+            <a href="#research" class="btn">View Research →</a>
+          </div>
+          <div class="highlight-card">
+            <span class="card-number">02</span>
+            <h3>Preprints</h3>
+            <p>Check out my latest work on Human Spatial Constraints (HSC), now available on bioRxiv.</p>
+            <a href="https://www.biorxiv.org/content/10.1101/2025.10.15.682722v1" target="_blank" class="btn">Read Preprint →</a>
+          </div>
+          <div class="highlight-card">
+            <span class="card-number">03</span>
+            <h3>PDB Color Tool</h3>
+            <p>An interactive tool for coloring and visualizing protein structures from the Protein Data Bank — built for researchers and students alike.</p>
+            <a href="structure-coloring-studio.html" class="btn">Open Tool →</a>
+          </div>
+          <div class="highlight-card">
+            <span class="card-number">04</span>
+            <h3>Music</h3>
+            <p>I produce and release music in my spare time. Stream it on Spotify or check back here for updates on what I've been working on.</p>
+            <a href="https://open.spotify.com/artist/2x71wNaoMEGl7eIvOEO7nV?si=Ilh74xNDSoGCmEbDtq-KXg" target="_blank" class="btn">Listen →</a>
+          </div>
+          <div class="highlight-card">
+            <span class="card-number">05</span>
+            <h3>AI Assistant</h3>
+            <p>Have questions about my research, background, or interests? Chat with my personal AI assistant — trained to know all things Gyasu.</p>
+            <a href="chatbot.html" class="btn">Start Chat →</a>
+          </div>
+          <div class="highlight-card">
+            <span class="card-number">06</span>
+            <h3>Connect</h3>
+            <p>Always happy to chat about science, music, collaborations, or anything in between. Find me on LinkedIn, GitHub, or just send an email.</p>
+            <a href="mailto:gyasu@outlook.com" class="btn">Get in Touch →</a>
           </div>
         </div>
       </div>
     </section>
 
-
-
-
-    <section class="highlights">
+    <section id="music" class="fade-in">
       <div class="container">
-        <div class="highlight-grid">
-          <div class="highlight-card">
-            <h3>Research</h3>
-            <p>...</p>
-            <a href="#research" class="btn">View Research</a>
+        <h2>Music</h2>
+        <p class="section-sub">I produce and release original music in my spare time. Stream my latest work below.</p>
+        <div class="spotify-embed-wrapper">
+          <iframe
+            id="spotify-embed"
+            src="https://open.spotify.com/embed/artist/2x71wNaoMEGl7eIvOEO7nV?utm_source=generator&theme=0"
+            width="100%"
+            height="352"
+            frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="fun-section">
+      <div class="container">
+        <button class="fun-toggle" id="fun-toggle" onclick="toggleFun()">
+          The Other Side of the Board <span id="fun-arrow">↓</span>
+        </button>
+        <div class="fun-content" id="fun-content">
+          <h2>Make Your Move!</h2>
+          <p style="margin-bottom: 2rem; color: var(--text-medium);">
+            Anyone can make a move! Check back later to see how the game unfolds.
+          </p>
+          <div class="chess-container">
+            <div class="chess-board" id="chess-board"></div>
+            <div class="chess-info">
+              <h3>Game Info</h3>
+              <div class="player-input">
+                <input type="text" id="player-name" placeholder="Enter your name" maxlength="20">
+              </div>
+              <div class="game-status" id="game-status">
+                <strong>White to move</strong><br>
+                Welcome! Make the first move.
+              </div>
+              <div class="move-history">
+                <h4>Recent Moves</h4>
+                <div id="move-list">
+                  <div style="font-style: italic;">No moves yet. Be the first to play!</div>
+                </div>
+              </div>
+              <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+            </div>
           </div>
-          <div class="highlight-card">
-            <h3>Music</h3>
-            <p>section coming soon</p>
-            <a href="#music" class="btn">Listen</a>
-          </div>
-          <div class="highlight-card">
-            <h3>AI Assistant</h3>
-            <p>Chat with my AI assistant to learn more about my work, research, and interests.</p>
-            <a href="chatbot.html" class="btn">Start Chat</a> </div>
         </div>
       </div>
     </section>
@@ -207,15 +252,10 @@
 
   <footer class="footer-note">
     <p>© Gyasu Bajracharya, 2025. All rights reserved. Do not copy or reuse without permission.</p>
-    <p id="last-updated"></p>
   </footer>
 
-  <script>
-    document.getElementById("last-updated").textContent =
-      "Last updated: " + new Date(document.lastModified).toLocaleDateString();
-  </script>
-
-  <script src="chatbot.js"></script> 
+  <script src="script.js"></script>
+  <script src="chatbot.js"></script>
   <script src="chess.js"></script>
   <script src="popup.js"></script> <!-- NEW SCRIPT FILE -->
 </body>

@@ -28,11 +28,12 @@ const elements = {
   
   // Theme toggle
   themeToggle: document.getElementById('toggle-theme'),
-  themeIcon: document.getElementById('theme-icon'),
   
   // Navigation
   navToggle: document.getElementById('nav-toggle'),
-  navLinks: document.querySelector('.nav-links')
+  sidebarClose: document.getElementById('sidebar-close'),
+  sidebar: document.getElementById('sidebar'),
+  sidebarOverlay: document.getElementById('sidebar-overlay')
 };
 
 // === IMPROVED SCROLL FUNCTION ===
@@ -170,21 +171,40 @@ if (elements.chatbotModal) {
   });
 }
 
-// Theme toggle
+// Theme toggle — persist preference in localStorage, default to dark
+const savedTheme = localStorage.getItem('theme') ?? 'dark';
+const applyTheme = (theme) => {
+  document.body.classList.toggle('dark-mode', theme === 'dark');
+  if (elements.themeToggle) elements.themeToggle.textContent = theme === 'dark' ? '☾' : '☀️';
+};
+applyTheme(savedTheme);
+
 if (elements.themeToggle) {
-  elements.themeToggle.addEventListener('change', () => {
-    const isDark = elements.themeToggle.checked;
-    document.body.classList.toggle('dark-mode', isDark);
-    if (elements.themeIcon) {
-      elements.themeIcon.textContent = isDark ? '☾' : '☀︎';
-    }
+  elements.themeToggle.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark-mode');
+    const theme = isDark ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    elements.themeToggle.textContent = isDark ? '☾' : '☀️';
   });
 }
 
-// Mobile navigation
-if (elements.navToggle && elements.navLinks) {
-  elements.navToggle.addEventListener('click', () => {
-    elements.navLinks.classList.toggle('active');
+// Sidebar navigation
+function openSidebar() {
+  if (elements.sidebar) elements.sidebar.classList.add('open');
+  if (elements.sidebarOverlay) elements.sidebarOverlay.classList.add('active');
+}
+function closeSidebar() {
+  if (elements.sidebar) elements.sidebar.classList.remove('open');
+  if (elements.sidebarOverlay) elements.sidebarOverlay.classList.remove('active');
+}
+
+if (elements.navToggle) elements.navToggle.addEventListener('click', openSidebar);
+if (elements.sidebarClose) elements.sidebarClose.addEventListener('click', closeSidebar);
+if (elements.sidebarOverlay) elements.sidebarOverlay.addEventListener('click', closeSidebar);
+
+if (elements.sidebar) {
+  elements.sidebar.querySelectorAll('.sidebar-links a').forEach(link => {
+    link.addEventListener('click', closeSidebar);
   });
 }
 
@@ -214,6 +234,84 @@ function setupAutoScroll() {
 document.addEventListener('DOMContentLoaded', () => {
   setupAutoScroll();
 });
+
+// Scroll fade-in
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+});
+
+// Read more toggle
+function toggleAbout() {
+  const more = document.getElementById('about-more');
+  const btn = document.getElementById('read-more-btn');
+  const isOpen = more.classList.toggle('open');
+  btn.textContent = isOpen ? 'Read less' : 'Read more';
+}
+
+// Fun section toggle
+function toggleFun() {
+  const content = document.getElementById('fun-content');
+  const arrow = document.getElementById('fun-arrow');
+  const isOpen = content.classList.toggle('open');
+  arrow.textContent = isOpen ? '↑' : '↓';
+}
+
+// === PAGE TRANSITIONS ===
+const pageTransition = document.getElementById('page-transition');
+
+// Fade in on page load
+if (pageTransition) {
+  window.addEventListener('load', () => {
+    requestAnimationFrame(() => {
+      pageTransition.style.opacity = '0';
+    });
+  });
+
+  // Fade out on internal page navigation
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    // Only intercept same-origin .html links (not anchors, mailto, or external)
+    if (href && !href.startsWith('#') && !href.startsWith('http') && !href.startsWith('mailto') && href.includes('.html')) {
+      e.preventDefault();
+      pageTransition.style.opacity = '1';
+      pageTransition.style.pointerEvents = 'all';
+      setTimeout(() => { window.location.href = href; }, 420);
+    }
+  });
+}
+
+// Sync Spotify embed theme
+const spotifyEmbed = document.getElementById('spotify-embed');
+if (spotifyEmbed) {
+  const syncSpotifyTheme = () => {
+    const isDark = document.body.classList.contains('dark-mode');
+    const base = 'https://open.spotify.com/embed/artist/2x71wNaoMEGl7eIvOEO7nV?utm_source=generator&theme=';
+    spotifyEmbed.src = base + (isDark ? '0' : '1');
+  };
+  syncSpotifyTheme();
+  if (elements.themeToggle) {
+    elements.themeToggle.addEventListener('click', syncSpotifyTheme);
+  }
+}
+
+// Hide logo + theme toggle on scroll
+const header = document.querySelector('header');
+if (header) {
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+}
 
 // Initial messages
 if (isChatbotPage && elements.messagesDiv) {

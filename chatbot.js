@@ -183,34 +183,6 @@ Please provide a helpful and informative response about Gyasu based on the avail
   }
 }
 
-// Event Listeners - attached conditionally with null checks
-if (isChatbotPage) {
-  // Main chatbot form handler for chatbot.html
-  if (form && input) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const text = input.value.trim();
-      if (text) sendMessage(text, false);
-    });
-    input.focus();
-    setTimeout(() => {
-      appendMessage("bot", "Hi! I'm Gyasu's AI assistant. I'm here to help you learn about his research, musical work, and background. What would you like to know about Gyasu?", false);
-    }, 500);
-  }
-} else {
-  // Modal chatbot form handler for index.html
-  if (modalForm && modalInput) {
-    modalForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const text = modalInput.value.trim();
-      if (text) sendMessage(text, true);
-    });
-    setTimeout(() => {
-      appendMessage("bot", "Hello! I'm here to help you learn about Gyasu Bajracharya. Feel free to ask me about his work!", true);
-    }, 1000);
-  }
-}
-
 // === THEME TOGGLE FUNCTIONALITY (COMMON TO BOTH PAGES) ===
 const toggle = document.getElementById('toggle-theme');
 const bodyElement = document.body;
@@ -313,3 +285,32 @@ if (navToggle && navLinks) {
     });
   });
 }
+
+// Event Listeners - attached conditionally with null checks
+if (isChatbotPage) {
+  // Main chatbot form handler for chatbot.html
+  if (form && input) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (text) sendMessage(text, false);
+    });
+    input.focus();
+    setTimeout(() => {
+      appendMessage("bot", "Hi! I'm Gyasu's AI assistant. I'm here to help you learn about his research, musical work, and background. What would you like to know about Gyasu?", false);
+    }, 500);
+  }
+} else {
+  // Modal chatbot form handler for index.html
+  if (modalForm && modalInput) {
+    modalForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = modalInput.value.trim();
+      if (text) sendMessage(text, true);
+    });
+    setTimeout(() => {
+      appendMessage("bot", "Hello! I'm here to help you learn about Gyasu Bajracharya. Feel free to ask me about his work!", true);
+    }, 1000);
+  }
+}
+

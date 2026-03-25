@@ -4,7 +4,7 @@
   "description": "Personal AI assistant chatbot for Gyasu Bajracharya",
   "main": "index.html",
   "scripts": {
-    "dev": "vercel dev",
+    "dev": "npx serve .",
     "build": "echo 'Static site, no build needed'",
     "start": "vercel dev"
   },

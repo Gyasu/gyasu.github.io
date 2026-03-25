@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gyasu Bajracharya - AI Assistant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Ribbon&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"> <style>
+  <script>if((localStorage.getItem('theme')??"dark")==="dark")document.documentElement.classList.add('dark-mode');</script>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
     /* Specific styles for chatbot.html to center and fill the viewport */
     body.chatbot-page {
       display: flex;
@@ -39,28 +39,27 @@
   </style>
 </head>
 <body class="chatbot-page">
+  <div id="page-transition"></div>
   <header>
     <nav class="container">
-      <a href="index.html" class="logo">Gyasu Bajracharya</a> <ul class="nav-links">
-        <li><a href="index.html#research">Research</a></li>
-        <li><a href="index.html#music">Music</a></li>
-        <li><a href="chatbot.html">AI Assistant</a></li>
-        <li><a href="index.html#cv">CV</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
-      </ul>
-
-      <label class="switch">
-        <input type="checkbox" id="toggle-theme">
-        <span class="slider">
-          <span class="icon" id="theme-icon">☀️</span>
-        </span>
-      </label>
-
-      <button id="nav-toggle" aria-label="Toggle navigation" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color: var(--brick-red);">
-        ☰
-      </button>
+      <button id="nav-toggle" aria-label="Open navigation">☰</button>
+      <a href="index.html" class="logo">Gyasu Bajracharya</a>
+      <button id="toggle-theme" aria-label="Toggle dark mode">☾</button>
     </nav>
   </header>
+
+  <div id="sidebar-overlay"></div>
+  <aside id="sidebar">
+    <button id="sidebar-close" aria-label="Close navigation">&times;</button>
+    <ul class="sidebar-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#research">Research</a></li>
+      <li><a href="index.html#music">Music</a></li>
+      <li><a href="chatbot.html">AI Assistant</a></li>
+      <li><a href="index.html#cv">CV</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </aside>
 
   <main>
     <section id="chatbot" class="chatbot-section" style="padding: 0; background: none;">
@@ -91,5 +90,7 @@
     </div>
   </footer>
 
-  <script src="chatbot.js"></script> </body>
+  <script src="script.js"></script>
+  <script src="chatbot.js"></script>
+</body>
 </html>
