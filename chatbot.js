@@ -200,8 +200,8 @@ function setTheme(dark) {
   }
 }
 
-// Set default theme
-setTheme(false);
+// Set default theme from localStorage
+setTheme((localStorage.getItem('theme') ?? 'dark') === 'dark');
 
 // Theme toggle event listener
 if (toggle) {

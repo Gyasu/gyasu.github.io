@@ -174,16 +174,18 @@ if (elements.chatbotModal) {
 // Theme toggle — persist preference in localStorage, default to dark
 const savedTheme = localStorage.getItem('theme') ?? 'dark';
 const applyTheme = (theme) => {
-  document.body.classList.toggle('dark-mode', theme === 'dark');
-  if (elements.themeToggle) elements.themeToggle.textContent = theme === 'dark' ? '☾' : '☀️';
+  const isDark = theme === 'dark';
+  document.body.classList.toggle('dark-mode', isDark);
+  document.documentElement.classList.toggle('dark-mode', isDark);
+  if (elements.themeToggle) elements.themeToggle.textContent = isDark ? '☾' : '☀️';
 };
 applyTheme(savedTheme);
 
 if (elements.themeToggle) {
   elements.themeToggle.addEventListener('click', () => {
     const isDark = document.body.classList.toggle('dark-mode');
-    const theme = isDark ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
+    document.documentElement.classList.toggle('dark-mode', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
     elements.themeToggle.textContent = isDark ? '☾' : '☀️';
   });
 }

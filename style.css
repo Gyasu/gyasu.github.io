@@ -846,15 +846,23 @@ a:focus {
 
   /* Hero Section - Major improvements */
   .hero {
-    padding: 0px 0 60px;
-    min-height: 70vh;
-    background-position: center center;
-    background-size: 100%;
-    background-attachment: scroll;
+    padding: 120px 0 60px;
+    min-height: 60vh;
     display: flex;
     align-items: center;
   }
-  
+
+  /* Hide decorative background images on mobile — they overlap content */
+  .hero-img {
+    display: none !important;
+  }
+
+  /* Always show theme toggle on mobile (don't hide on scroll) */
+  header.scrolled #toggle-theme {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .hero .container {
     width: 100%;
   }
@@ -866,8 +874,8 @@ a:focus {
   }
 
   .hero-intro {
-    font-size: 0.85rem;
-    max-width: 200px;
+    font-size: 0.9rem;
+    max-width: 100%;
     margin-bottom: 2rem;
     line-height: 1.6;
   }
@@ -907,6 +915,11 @@ a:focus {
   .about-text {
     width: 100%;
     text-align: left;
+  }
+
+  .read-more-btn {
+    display: block;
+    margin: 0.5rem auto 0;
   }
   
   .social-links {
@@ -978,20 +991,18 @@ a:focus {
 
   /* Hero adjustments for very small screens */
   .hero {
-    padding: 0px 0 50px;
+    padding: 110px 0 50px;
     min-height: 55vh;
-    background-position: top center;
-    background-size: 100%;
   }
 
   .hero h1 {
-    font-size: 1rem;
+    font-size: 1.5rem;
     line-height: 1.4;
   }
 
   .hero-intro {
-    font-size: 0.6rem;
-    max-width: 180px;
+    font-size: 0.85rem;
+    max-width: 100%;
     line-height: 1.6;
   }
 
