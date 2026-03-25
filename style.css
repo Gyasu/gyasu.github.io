@@ -844,33 +844,43 @@ a:focus {
     padding: 0 1.5rem;
   }
 
-  /* Hero Section — stacked layout on mobile: text on top, image below */
+  /* Hero Section — stacked on mobile */
   .hero {
-    padding: 100px 1rem 0;
+    padding: 100px 0 0;
     min-height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 
   .hero .container {
-    order: 1;
     width: 100%;
+    text-align: center;
   }
 
-  /* Image below the text, full width */
+  .hero h1 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .hero-intro {
+    font-size: 0.9rem;
+    max-width: 100%;
+    margin-bottom: 0;
+    line-height: 1.6;
+  }
+
+  /* Image sits between text and social links, centered, full width */
   .hero-img {
     position: relative;
     top: auto;
     right: auto;
     bottom: auto;
+    display: block;
     width: 100%;
     height: auto;
     max-width: 100%;
     object-fit: contain;
     opacity: 1;
-    order: 2;
-    margin-top: 1.5rem;
+    margin: 1rem auto 0;
   }
 
   /* Always show theme toggle on mobile (don't hide on scroll) */
@@ -947,7 +957,7 @@ a:focus {
   .social-links {
     justify-content: center;
     margin-left: 0;
-    margin-top: 3rem;
+    margin-top: 1.5rem;
     gap: 1.5rem;
   }
   
