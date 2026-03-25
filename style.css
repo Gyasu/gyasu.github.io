@@ -889,8 +889,9 @@ a:focus {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0 3.5rem;
+    gap: 1rem;
+    max-width: 340px;
+    padding: 0;
   }
 
   .hero-text {
