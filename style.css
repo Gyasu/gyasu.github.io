@@ -917,8 +917,9 @@ a:focus {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 1.5rem;
     gap: 1.5rem;
+    margin: 2rem auto;
   }
 
   #about-img {
@@ -928,7 +929,9 @@ a:focus {
 
   .about-text {
     width: 100%;
+    min-width: 0;
     text-align: left;
+    padding: 0 0.25rem;
   }
 
   .read-more-btn {
