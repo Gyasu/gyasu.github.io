@@ -588,7 +588,7 @@ footer {
 
 /* Fun section */
 .fun-section {
-  padding: 2rem 0;
+  padding: 0.5rem 0 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -772,7 +772,7 @@ a:focus {
    MUSIC / SPOTIFY SECTION
    ============================================ */
 #music {
-  padding: 80px 0;
+  padding: 20px 0 40px;
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -844,43 +844,74 @@ a:focus {
     padding: 0 1.5rem;
   }
 
-  /* Hero Section — stacked on mobile */
+  /* Header: show name inline with nav + theme buttons on mobile */
+  nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    min-height: auto;
+    background: var(--warm-cream);
+  }
+
+  body.dark-mode nav {
+    background: #000;
+  }
+
+  #nav-toggle,
+  #toggle-theme {
+    position: static;
+  }
+
+  .logo {
+    position: static;
+    transform: none;
+    bottom: auto;
+    left: auto;
+    font-size: 1rem;
+  }
+
+  header.scrolled .logo,
+  header.scrolled #toggle-theme {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Hero Section — text left, links right on mobile */
   .hero {
-    padding: 100px 0 0;
+    padding: 70px 0 40px;
     min-height: auto;
   }
 
   .hero .container {
-    width: 100%;
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .hero-text {
+    flex: 1;
+    min-width: 0;
   }
 
   .hero h1 {
-    font-size: 1.75rem;
+    font-size: 1.4rem;
     line-height: 1.3;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .hero-intro {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     max-width: 100%;
     margin-bottom: 0;
     line-height: 1.6;
   }
 
-  /* Image sits between text and social links, centered, full width */
+  /* Hide hero images on mobile */
   .hero-img {
-    position: relative;
-    top: auto;
-    right: auto;
-    bottom: auto;
-    display: block;
-    width: 100%;
-    height: auto;
-    max-width: 100%;
-    object-fit: contain;
-    opacity: 1;
-    margin: 1rem auto 0;
+    display: none !important;
   }
 
   /* Always show theme toggle on mobile (don't hide on scroll) */
@@ -955,10 +986,13 @@ a:focus {
   }
   
   .social-links {
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin-left: 0;
-    margin-top: 1.5rem;
-    gap: 1.5rem;
+    margin-top: 0;
+    gap: 1rem;
+    flex-shrink: 0;
   }
   
   .social-links a {
