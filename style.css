@@ -627,23 +627,23 @@ footer {
 /* About Section - Reduced Line Height */
 
 #about {
+  padding: 4rem 0;
+}
+
+.about-inner {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 3rem;
-  max-width: 1200px;
-  margin: 4rem auto;
-  padding: 0 5%;
 }
 
 #about-img {
   width: 100%;
-  max-width: 420px;
+  max-width: 380px;
   height: auto;
   border-radius: 8px;
   flex-shrink: 0;
   object-fit: cover;
-  margin-right: 8%;
 }
 
 .about-text {
@@ -841,7 +841,7 @@ a:focus {
 /* Mobile styles - Large phones */
 @media (max-width: 768px) {
   .container {
-    padding: 0 16px;
+    padding: 0 1.5rem;
   }
 
   /* Hero Section — side by side layout on mobile */
@@ -917,12 +917,13 @@ a:focus {
 
   /* About section */
   #about {
+    padding: 2rem 0;
+  }
+
+  .about-inner {
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    padding: 1.5rem 1.5rem;
     gap: 1.5rem;
-    margin: 2rem auto;
   }
 
   #about-img {
@@ -934,7 +935,6 @@ a:focus {
     width: 100%;
     min-width: 0;
     text-align: left;
-    padding: 0 0.25rem;
   }
 
   .read-more-btn {
@@ -1002,7 +1002,7 @@ a:focus {
 /* Mobile styles - Small phones */
 @media (max-width: 480px) {
   .container {
-    padding: 0 12px;
+    padding: 0 1.25rem;
   }
   
   .logo {
