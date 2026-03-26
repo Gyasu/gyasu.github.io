@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600&display=swap');
 
 * {
   margin: 0;
@@ -18,7 +17,7 @@
 }
 
 body {
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
   color: var(--text-dark);
   background-color: #fff9f1;
@@ -86,7 +85,7 @@ nav {
 }
 
 .logo {
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.9rem;
   font-weight: 300;
   color: var(--brick-red);
@@ -153,7 +152,7 @@ nav {
   color: var(--text-medium);
   text-decoration: none;
   font-size: 1.05rem;
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;
   transition: color 0.2s, background 0.2s;
 }
@@ -164,7 +163,7 @@ nav {
 }
 
 .hero {
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   position: relative;
   padding: 150px 0 80px;
   background-color: #fff9f1;
@@ -205,7 +204,7 @@ body.dark-mode .hero {
 }
 
 .hero h1 {
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 2.25rem;
   font-weight: 600;
   color: var(--text-dark);
@@ -270,7 +269,7 @@ body.dark-mode .hero {
 }
 
 .highlight-card h3 {
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: var(--text-dark);
   font-size: 1.2rem;
   font-weight: 500;
@@ -327,7 +326,7 @@ body.dark-mode .hero {
 }
 
 .chatbot-header h2 {
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
@@ -389,7 +388,7 @@ body.dark-mode .hero {
   border: none;
   padding: 0.75rem 1rem;
   outline: none;
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .chatbot-send {
@@ -399,7 +398,7 @@ body.dark-mode .hero {
   font-weight: 600;
   padding: 0 1.5rem;
   cursor: pointer;
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   transition: background 0.3s ease;
 }
 
@@ -577,7 +576,7 @@ footer {
   background: none;
   border: none;
   cursor: pointer;
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 0.95rem;
   color: var(--text-medium);
   padding: 0;
@@ -597,7 +596,7 @@ footer {
   background: none;
   border: none;
   cursor: pointer;
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 1.1rem;
   font-weight: 500;
   color: var(--text-medium);
@@ -649,7 +648,7 @@ footer {
 .about-text {
   flex: 1;
   min-width: 300px;
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
   color: var(--text-dark);
   line-height: 1.4; /* Reduced from 1.6 */
@@ -746,7 +745,7 @@ a:focus {
 .footer-note {
   flex: 1;
   min-width: 300px;
-  font-family: 'Jost', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
   color: var(--text-dark);
   line-height: 1.4;
